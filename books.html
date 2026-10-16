@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انتخاب کتاب | درسک</title>
+    <link rel="icon" type="image/png" href="images/darsak-logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="brand">
+            <img src="images/darsak-logo.png" alt="لوگوی درسک">
+            <span>درسک</span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html">خانه</a>
+            <a href="index.html#courses">پایه‌های تحصیلی</a>
+            <a href="index.html#resources">جزوه‌ها و منابع</a>
+        </nav>
+
+                <a href="auth.html" class="login-button">ورود / ثبت‌نام</a>
+    </header>
+
+    <main class="books-page">
+        <section class="section-heading">
+            <span>مسیر یادگیری تو</span>
+            <h1 id="gradeTitle">کتاب‌های پایه اول</h1>
+            <p>کتاب موردنظرت رو انتخاب کن و یادگیری رو شروع کن.</p>
+        </section>
+
+        <section class="book-grid">
+
+            <article class="book-card" data-subject="math">
+                <div class="book-icon">📐</div>
+                <h2>ریاضی</h2>
+                <p>یادگیری مفاهیم ریاضی، تمرین‌ها و حل مسئله.</p>
+                <a href="#" class="resource-button">مشاهده درس‌ها</a>
+            </article>
+
+            <article class="book-card" data-subject="science">
+                <div class="book-icon">🔬</div>
+                <h2>علوم تجربی</h2>
+                <p>کشف دنیای طبیعت و آشنایی با پدیده‌های علمی.</p>
+                <a href="#" class="resource-button">مشاهده درس‌ها</a>
+            </article>
+
+            <article class="book-card" data-subject="persion">
+                <div class="book-icon">📖</div>
+                <h2>فارسی</h2>
+                <p>تقویت خواندن، نوشتن و مهارت‌های زبانی.</p>
+                <a href="#" class="resource-button">مشاهده درس‌ها</a>
+            </article>
+
+            <article class="book-card" data-subject="quran">
+                <div class="book-icon">🕌</div>
+                <h2>آموزش قرآن</h2>
+                <p>آشنایی با روخوانی و آموزش قرآن.</p>
+                <a href="#" class="resource-button">مشاهده درس‌ها</a>
+            </article>
+
+            <article class="book-card" data-subject="social">
+                <div class="book-icon">🌍</div>
+                <h2>مطالعات اجتماعی</h2>
+                <p>آشنایی با جامعه، خانواده و محیط اطراف.</p>
+                <a href="#" class="resource-button">مشاهده درس‌ها</a>
+            </article>
+
+            <article class="book-card" data-subject="writing">
+                <div class="book-icon">✏️</div>
+                <h2>نگارش</h2>
+                <p>تمرین نوشتن و بیان بهتر ایده‌ها.</p>
+                <a href="#" class="resource-button">مشاهده درس‌ها</a>
+            </article>
+
+        </section>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const grade = params.get("grade");
+
+        const gradeNames = {
+            "1": "اول",
+            "2": "دوم",
+            "3": "سوم",
+            "4": "چهارم",
+            "5": "پنجم",
+            "6": "ششم",
+            "7": "هفتم",
+            "8": "هشتم",
+            "9": "نهم",
+            "10": "دهم",
+            "11": "یازدهم",
+            "12": "دوازدهم"
+        };
+
+        const gradeTitle = document.getElementById("gradeTitle");
+        const gradeName = gradeNames[grade];
+
+        if (gradeName) {
+            gradeTitle.textContent = "کتاب‌های پایه " + gradeName;
+        } else {
+            gradeTitle.textContent = "انتخاب پایه تحصیلی";
+        }
+document.querySelectorAll(".book-card").forEach(function (card) {
+    const link = card.querySelector(".resource-button");
+
+    link.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const params = new URLSearchParams(window.location.search);
+        const grade = params.get("grade");
+        const subject = card.dataset.subject;
+
+        window.location.href =
+            "subject.html?grade=" + encodeURIComponent(grade || "") +
+            "&subject=" + encodeURIComponent(subject);
+    });
+});
+    </script>
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>تکمیل خرید | درسک</title>
+    <meta name="description" content="صفحه خرید منابع آموزشی سایت درسک">
+
+    <link rel="icon" href="images/darsak-logo.png">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* صفحه خرید درسک */
+        .checkout-page {
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .checkout-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .checkout-heading h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .checkout-heading p {
+            color: #777;
+            line-height: 1.9;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .checkout-card {
+            background: var(--card-bg, #ffffff);
+            color: var(--text-color, #222);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .checkout-card h2 {
+            font-size: 21px;
+            margin: 0 0 25px;
+        }
+
+        .checkout-product {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .checkout-product-icon {
+            width: 65px;
+            height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #edf3ff;
+            border-radius: 15px;
+            font-size: 30px;
+            flex-shrink: 0;
+        }
+
+        .checkout-product h3 {
+            font-size: 17px;
+            margin: 0 0 8px;
+        }
+
+        .checkout-product p {
+            color: #888;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .checkout-divider {
+            border: 0;
+            border-top: 1px solid rgba(128, 128, 128, 0.22);
+            margin: 22px 0;
+        }
+
+        .checkout-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 18px 0;
+            line-height: 1.8;
+        }
+
+        .checkout-total {
+            color: #1769d2;
+            font-size: 20px;
+        }
+
+        .checkout-field {
+            margin-bottom: 22px;
+        }
+
+        .checkout-field label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .checkout-field input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border: 1px solid #d5d9e0;
+            border-radius: 12px;
+            background: var(--input-bg, #fff);
+            color: var(--text-color, #222);
+            font: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .checkout-field input:focus {
+            border-color: #2878df;
+            box-shadow: 0 0 0 3px rgba(40, 120, 223, 0.12);
+        }
+
+        .checkout-hint {
+            color: #888;
+            font-size: 12px;
+            line-height: 1.8;
+            margin-top: 8px;
+        }
+
+        .checkout-submit,
+        .checkout-cancel {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font: inherit;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .checkout-submit {
+            background: #1769d2;
+            color: white;
+            margin-top: 25px;
+        }
+
+        .checkout-cancel {
+            background: transparent;
+            color: var(--text-color, #333);
+            border: 1px solid #d5d9e0;
+            margin-top: 12px;
+        }
+
+        .checkout-submit:hover,
+        .checkout-cancel:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .checkout-notice {
+            display: none;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 12px;
+            line-height: 1.9;
+            font-size: 14px;
+        }
+
+        .checkout-notice.show {
+            display: block;
+        }
+
+        .checkout-notice.info {
+            background: #eaf3ff;
+            color: #164b88;
+        }
+
+        .checkout-notice.error {
+            background: #fff0f0;
+            color: #a32121;
+        }
+
+        .checkout-security {
+            margin-top: 25px;
+            padding: 15px;
+            background: rgba(128, 128, 128, 0.08);
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .checkout-back {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #1769d2;
+        }
+
+        @media (max-width: 700px) {
+            .checkout-page {
+                margin: 20px auto;
+                padding: 14px;
+            }
+
+            .checkout-heading h1 {
+                font-size: 25px;
+            }
+
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-card {
+                padding: 21px;
+            }
+        }
+/* هدر صفحه خرید درسک */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 15px 5%;
+    background: var(--card-bg, #ffffff);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.site-header > a:first-child {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.site-header img {
+    display: block;
+    object-fit: contain;
+}
+
+.site-header nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.site-header nav a {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 10px;
+    color: var(--text-color, #26344a);
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.site-header nav a:hover {
+    background: #1769d2;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .site-header {
+        justify-content: center;
+    }
+
+    .site-header nav {
+        width: 100%;
+        gap: 6px;
+    }
+
+    .site-header nav a {
+        padding: 9px 11px;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <a href="index.html" aria-label="صفحه اصلی درسک">
+            <img
+                src="images/darsak-logo.png"
+                alt="لوگوی درسک"
+                width="55"
+                height="55"
+            >
+        </a>
+
+        <nav aria-label="منوی اصلی">
+            <a href="index.html">صفحه اصلی</a>
+            <a href="books.html">کتاب‌ها</a>
+            <a href="auth.html" class="login-button">ورود / ثبت‌نام</a>
+        </nav>
+    </header>
+
+    <main class="checkout-page">
+
+        <section class="checkout-heading">
+            <h1>تکمیل خرید 🛒</h1>
+            <p>اطلاعات سفارش خود را بررسی کن و مراحل بعدی را انجام بده.</p>
+        </section>
+
+        <div class="checkout-layout">
+
+            <!-- اطلاعات سفارش -->
+            <section class="checkout-card">
+                <h2>📚 خلاصه سفارش</h2>
+
+                <div class="checkout-product">
+                    <div class="checkout-product-icon">📖</div>
+
+                    <div>
+                        <h3 id="productName">فایل آموزشی پایه دهم</h3>
+                        <p>محصول دیجیتال درسک</p>
+                    </div>
+                </div>
+
+                <hr class="checkout-divider">
+
+                <div class="checkout-row">
+                    <span>قیمت محصول</span>
+                    <strong id="productPrice">۱۰٬۰۰۰ تومان</strong>
+                </div>
+
+                <div class="checkout-row">
+                    <span>هزینه ارسال</span>
+                    <strong>رایگان</strong>
+                </div>
+
+                <hr class="checkout-divider">
+
+                <div class="checkout-row">
+                    <strong>مبلغ قابل پرداخت</strong>
+                    <strong class="checkout-total" id="totalPrice">
+                        ۱۰٬۰۰۰ تومان
+                    </strong>
+                </div>
+
+                <div class="checkout-security">
+                    🔒 این صفحه فعلاً آزمایشی است. هنوز هیچ پرداخت واقعی
+                    یا دانلود خودکاری انجام نمی‌شود.
+                </div>
+            </section>
+
+            <!-- اطلاعات خریدار -->
+            <section class="checkout-card">
+                <h2>👤 اطلاعات خریدار</h2>
+
+                <form id="checkoutForm">
+
+                    <div class="checkout-field">
+                        <label for="buyerEmail">آدرس ایمیل</label>
+
+                        <input
+                            type="email"
+                            id="buyerEmail"
+                            name="email"
+                            placeholder="example@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                        <p class="checkout-hint">
+                            ایمیل را درست وارد کن تا بعداً بتوانیم سفارش را
+                            به حساب یا خریدت مرتبط کنیم.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="checkout-submit">
+                        ادامه به پرداخت آزمایشی
+                    </button>
+
+                    <a href="index.html" class="checkout-cancel">
+                        انصراف و بازگشت به صفحه اصلی
+                    </a>
+
+                    <div
+                        id="checkoutNotice"
+                        class="checkout-notice"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+
+                </form>
+            </section>
+
+        </div>
+
+        <a href="index.html" class="checkout-back">
+            ← بازگشت به صفحه اصلی درسک
+        </a>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+
+    <script>
+        // فهرست محصولات آزمایشی
+        // قیمت از این فهرست خوانده می‌شود، نه از آدرس صفحه.
+        const products = {
+            "grade10-pdf": {
+                name: "فایل آموزشی پایه دهم",
+                price: 10000
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get("product") || "grade10-pdf";
+        const product = products[productId];
+
+        const productName = document.getElementById("productName");
+        const productPrice = document.getElementById("productPrice");
+        const totalPrice = document.getElementById("totalPrice");
+        const checkoutForm = document.getElementById("checkoutForm");
+        const checkoutNotice = document.getElementById("checkoutNotice");
+
+const emailInput = document.getElementById("buyerEmail");
+
+async function loadCheckoutUser() {
+    try {
+        const { data, error } = await supabaseClient.auth.getUser();
+
+        if (error) {
+            throw error;
+        }
+
+        if (data.user && data.user.email) {
+            emailInput.value = data.user.email;
+            emailInput.readOnly = true;
+        } else {
+            emailInput.readOnly = false;
+            checkoutNotice.textContent =
+                "برای خرید، بهتر است ابتدا وارد حساب کاربری‌ات شوی.";
+            checkoutNotice.className = "checkout-notice show info";
+        }
+    } catch (error) {
+        console.error("خطا در دریافت حساب خریدار:", error);
+        emailInput.readOnly = false;
+    }
+}
+
+loadCheckoutUser();
+
+        const formatPrice = (price) =>
+            price.toLocaleString("fa-IR") + " تومان";
+
+        if (product) {
+            productName.textContent = product.name;
+            productPrice.textContent = formatPrice(product.price);
+            totalPrice.textContent = formatPrice(product.price);
+        } else {
+            productName.textContent = "محصول نامعتبر";
+            productPrice.textContent = "—";
+            totalPrice.textContent = "—";
+
+            checkoutForm.querySelector("button").disabled = true;
+            checkoutForm.querySelector("button").style.opacity = "0.5";
+
+            checkoutNotice.textContent =
+                "این محصول شناسایی نشد. لطفاً از صفحه کتاب‌ها دوباره انتخابش کن.";
+            checkoutNotice.className = "checkout-notice show error";
+        }
+
+        checkoutForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            if (!product) return;
+
+            const emailInput = document.getElementById("buyerEmail");
+            const email = emailInput.value.trim();
+
+            if (!emailInput.checkValidity()) {
+                emailInput.reportValidity();
+                return;
+            }
+
+            checkoutNotice.textContent =
+                "اطلاعات فرم درست وارد شده است؛ اما این فقط یک آزمایش است. پرداختی انجام نشد و مبلغی دریافت نمی‌شود.";
+
+            checkoutNotice.className = "checkout-notice show info";
+        });
+    </script>
+
+</body>
+</html>

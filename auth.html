@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ورود و ثبت‌نام | درسک</title>
+
+    <link rel="icon" type="image/png" href="images/darsak-logo.png">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .auth-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 16px;
+            background: #f1f5f9;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: #fff;
+            padding: 36px;
+            border-radius: 22px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+        }
+
+        .auth-brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .auth-brand img {
+            width: 76px;
+            height: 76px;
+            object-fit: contain;
+        }
+
+        .auth-brand h1 {
+            color: #1d4ed8;
+            margin: 8px 0;
+            font-size: 30px;
+        }
+
+        .auth-brand p {
+            color: #64748b;
+            margin: 0;
+            line-height: 1.9;
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 5px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            margin-bottom: 26px;
+        }
+
+        .auth-tab {
+            padding: 12px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font: inherit;
+            background: transparent;
+            color: #475569;
+            transition: 0.2s;
+        }
+
+        .auth-tab.active {
+            background: #1d4ed8;
+            color: white;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+        }
+
+        .auth-form h2 {
+            font-size: 22px;
+            color: #0f172a;
+            margin: 0 0 8px;
+        }
+
+        .auth-description {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.9;
+            margin: 0 0 22px;
+        }
+
+        .auth-field {
+            margin-bottom: 18px;
+        }
+
+        .auth-field label {
+            display: block;
+            color: #334155;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .auth-field input {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font: inherit;
+            outline: none;
+            background: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .auth-field input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .auth-submit {
+            width: 100%;
+            border: none;
+            border-radius: 11px;
+            padding: 14px;
+            margin-top: 5px;
+            background: #1d4ed8;
+            color: white;
+            font: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .auth-submit:hover {
+            background: #1e40af;
+            transform: translateY(-1px);
+        }
+
+        .auth-notice {
+            display: none;
+            margin-top: 16px;
+            padding: 12px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 10px;
+            color: #92400e;
+            font-size: 13px;
+            line-height: 1.9;
+        }
+
+        .auth-back {
+            display: block;
+            text-align: center;
+            margin-top: 24px;
+            color: #1d4ed8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="auth-page">
+        <section class="auth-card">
+
+            <div class="auth-brand">
+                <img src="images/darsak-logo.png" alt="لوگوی درسک">
+                <h1>درسک</h1>
+                <p>یادگیری آسان، آینده روشن‌تر</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button type="button" class="auth-tab active"
+                    data-form="login">ورود</button>
+
+                <button type="button" class="auth-tab"
+                    data-form="register">ثبت‌نام</button>
+            </div>
+
+            <form class="auth-form" id="loginForm">
+                <h2>خوش برگشتی! 👋</h2>
+                <p class="auth-description">
+                    وارد حساب کاربری خودت در درسک شو.
+                </p>
+
+                <div class="auth-field">
+                    <label for="loginEmail">ایمیل</label>
+                    <input type="email" id="loginEmail"
+                        placeholder="example@email.com"
+                        autocomplete="email" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="loginPassword">رمز عبور</label>
+                    <input type="password" id="loginPassword"
+                        placeholder="رمز عبورت رو وارد کن"
+                        autocomplete="current-password"
+                        required minlength="8">
+                </div>
+
+                <button class="auth-submit" type="submit">
+                    ورود به حساب
+                </button>
+            </form>
+
+            <form class="auth-form" id="registerForm" hidden>
+                <h2>به خانواده درسک خوش اومدی! 🎓</h2>
+                <p class="auth-description">
+                    حساب خودت رو بساز و مسیر یادگیری رو شروع کن.
+                </p>
+
+                <div class="auth-field">
+                    <label for="registerName">نام</label>
+                    <input type="text" id="registerName"
+                        placeholder="نام خودت رو وارد کن"
+                        autocomplete="name" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="registerEmail">ایمیل</label>
+                    <input type="email" id="registerEmail"
+                        placeholder="example@email.com"
+                        autocomplete="email" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="registerPassword">رمز عبور</label>
+                    <input type="password" id="registerPassword"
+                        placeholder="حداقل ۸ کاراکتر"
+                        autocomplete="new-password"
+                        minlength="8" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="confirmPassword">تکرار رمز عبور</label>
+                    <input type="password" id="confirmPassword"
+                        placeholder="رمز عبور رو دوباره وارد کن"
+                        autocomplete="new-password"
+                        minlength="8" required>
+                </div>
+
+                <button class="auth-submit" type="submit">
+                    ساخت حساب کاربری
+                </button>
+            </form>
+
+            <div class="auth-notice" id="authNotice" role="status"></div>
+
+            <a href="index.html" class="auth-back">
+                ← بازگشت به صفحه اصلی درسک
+            </a>
+
+        </section>
+    </main>
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+
+<script>
+        
+const tabs = document.querySelectorAll(".auth-tab");
+const loginForm = document.getElementById("loginForm");
+const registerForm = document.getElementById("registerForm");
+const notice = document.getElementById("authNotice");
+
+function showNotice(message) {
+    notice.textContent = message;
+    notice.style.display = "block";
+}
+
+tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+        const showRegister = tab.dataset.form === "register";
+
+        tabs.forEach(function (item) {
+            item.classList.toggle("active", item === tab);
+        });
+
+        loginForm.hidden = showRegister;
+        registerForm.hidden = !showRegister;
+        notice.style.display = "none";
+        notice.textContent = "";
+    });
+});
+
+// ثبت‌نام واقعی با Supabase
+registerForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const name = document.getElementById("registerName").value.trim();
+    const email = document.getElementById("registerEmail").value
+        .trim()
+        .toLowerCase();
+    const password = document.getElementById("registerPassword").value;
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+
+    if (!name || !email || !password) {
+        showNotice("لطفاً همه فیلدها را کامل کن.");
+        return;
+    }
+
+    if (password.length < 8) {
+        showNotice("رمز عبور باید حداقل ۸ کاراکتر داشته باشد.");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        showNotice("رمز عبور و تکرار آن یکسان نیستند.");
+        return;
+    }
+
+    const submitButton = registerForm.querySelector(
+        'button[type="submit"]'
+    );
+
+    submitButton.disabled = true;
+    submitButton.textContent = "در حال ساخت حساب...";
+
+    try {
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    full_name: name
+                },
+                emailRedirectTo: window.location.origin + "/auth.html"
+            }
+        });
+
+        if (error) {
+            showNotice("ثبت‌نام انجام نشد: " + error.message);
+            return;
+        }
+
+        if (data.session) {
+            showNotice("حساب ساخته شد! در حال انتقال...");
+            window.location.href = "index.html";
+        } else {
+            showNotice(
+                "ثبت‌نام انجام شد! ایمیلت را بررسی کن و روی لینک تأیید کلیک کن."
+            );
+        }
+    } catch (error) {
+        showNotice("ارتباط برقرار نشد. اینترنت و تنظیمات اتصال را بررسی کن.");
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "ساخت حساب کاربری";
+    }
+});
+
+// ورود واقعی با Supabase
+loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById("loginEmail").value
+        .trim()
+        .toLowerCase();
+    const password = document.getElementById("loginPassword").value;
+
+    const submitButton = loginForm.querySelector(
+        'button[type="submit"]'
+    );
+
+    submitButton.disabled = true;
+    submitButton.textContent = "در حال ورود...";
+
+    try {
+        const { error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            showNotice(
+                "ورود انجام نشد. ایمیل و رمز عبور را بررسی کن و اگر ایمیلت تأیید نشده، ابتدا آن را تأیید کن."
+            );
+            return;
+        }
+
+        window.location.href = "index.html";
+    } catch (error) {
+        showNotice("ارتباط برقرار نشد. دوباره امتحان کن.");
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "ورود به حساب";
+    }
+});
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درسک | آموزش برای همه</title>
+    <link rel="icon" type="image/png" href="images/darsak-logo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="brand">
+            <img src="images/darsak-logo.png" alt="لوگوی درسک">
+            <span>درسک</span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html">خانه</a>
+            <a href="#courses">دوره‌های آموزشی</a>
+            <a href="#resources">جزوه‌ها و منابع</a>
+        </nav>
+
+        <a href="auth.html" class="login-button">ورود / ثبت‌نام</a>
+    </header>
+
+ 
+<main>
+    
+<section class="resources" id="resources">
+    <div class="section-heading">
+        <span>کتابخانه درسک</span>
+        <h2>جزوه‌ها و منابع آموزشی</h2>
+        <p>منابع کاربردی برای یادگیری بهتر و مرور درس‌ها.</p>
+    </div>
+<div class="resource-search">
+    <input
+        type="text"
+        id="resourceSearch"
+        placeholder="جست‌وجوی منابع آموزشی..."
+        aria-label="جست‌وجوی منابع آموزشی"
+    >
+</div>
+<div class="resource-sort">
+    <label for="resourceSort">مرتب‌سازی:</label>
+    <select id="resourceSort">
+        <option value="default">ترتیب پیش‌فرض</option>
+        <option value="newest">جدیدترین</option>
+    </select>
+</div>
+<div class="resource-filters">
+    <button class="filter-btn active" data-filter="all">
+        همه
+    </button>
+
+    <button class="filter-btn" data-filter="free">
+        رایگان
+    </button>
+
+    <button class="filter-btn" data-filter="premium">
+        ویژه
+    </button>
+</div>
+
+
+    <div class="resource-grid">
+
+        <article class="resource-card" data-type="free" data-date="2026-10-13">
+            <div class="resource-top">
+                <span class="pdf-icon">PDF</span>
+                <span class="resource-badge free">رایگان</span>
+            </div>
+            <h3>خلاصه فرمول‌های ریاضی</h3>
+            <p>مجموعه‌ای از فرمول‌های مهم برای مرور سریع مطالب.</p>
+            
+            <a href="pdfs/math-formulas.pdf"
+            class="resource-button"
+            target="_blank"
+            rel="noopener">
+             مشاهده جزوه
+            </a>
+
+
+        </article>
+
+        <article class="resource-card" data-type="free" data-date="2026-9-12">
+            <div class="resource-top">
+                <span class="pdf-icon">PDF</span>
+                <span class="resource-badge free">رایگان</span>
+            </div>
+            <h3>نکات مهم فیزیک</h3>
+            <p>مروری بر مفاهیم و نکات کلیدی فیزیک.</p>
+            <a href="#" class="resource-button">مشاهده جزوه</a>
+        </article>
+
+        <article class="resource-card" data-type="premium" data-date="2026-10-11">
+            <div class="resource-top">
+                <span class="pdf-icon">PDF</span>
+                <span class="resource-badge premium">ویژه</span>
+            </div>
+            <h3>بسته جزوه های کامل برای هر درس</h3>
+            <p>یک مجموعه تمرینی برای حل مسئله و تقویت مهارت‌ها.</p>
+            <div class="resource-bottom">
+                <span class="resource-price">قیمت: ۱۰٬۰۰۰</span>
+                <a href="checkout.html" class="resource-button">انتخاب و رفتن به صفحه خرید</a>
+            </div>
+        </article>
+
+    </div>
+</section>
+    <section class="hero">
+        <span class="hero-label">مسیر موفقیت تحصیلی</span>
+        <h1>یادگیری، ساده‌تر از همیشه</h1>
+        <p>
+            درسک؛ همراه تو در مسیر یادگیری و موفقیت تحصیلی.
+        </p>
+        <a href="#courses" class="hero-button">
+            مشاهده درس‌ها
+        </a>
+    </section>
+
+    <section class="courses" id="courses">
+        <div class="section-heading">
+            <span>یاد بگیر، پیشرفت کن</span>
+            <h2>دنیای درس‌ها در درسک</h2>
+            <p>درس موردنظرت رو انتخاب کن و یادگیری رو شروع کن.</p>
+        </div>
+
+<div class="school-levels">
+
+    <!-- دبستان -->
+    <section class="school-level">
+        <h3>دبستان</h3>
+        <p>یادگیری پایه‌ای برای دانش‌آموزان دبستانی</p>
+<div class="course-grid" data-level="elementary">
+    <button class="grade-button" data-grade="1">پایه اول</button>
+    <button class="grade-button" data-grade="2">پایه دوم</button>
+    <button class="grade-button" data-grade="3">پایه سوم</button>
+    <button class="grade-button" data-grade="4">پایه چهارم</button>
+    <button class="grade-button" data-grade="5">پایه پنجم</button>
+    <button class="grade-button" data-grade="6">پایه ششم</button>
+</div>
+    </section>
+
+    <!-- راهنمایی -->
+    <section class="school-level">
+        <h3>راهنمایی</h3>
+        <p>تقویت مهارت‌ها و آمادگی برای مقاطع بالاتر</p>
+<div class="course-grid" data-level="middle">
+    <button class="grade-button" data-grade="7">پایه هفتم</button>
+    <button class="grade-button" data-grade="8">پایه هشتم</button>
+    <button class="grade-button" data-grade="9">پایه نهم</button>
+</div>  
+    </section>
+
+    <!-- دبیرستان -->
+    <section class="school-level">
+        <h3>دبیرستان</h3>
+        <p>یادگیری عمیق‌تر و آمادگی برای امتحانات</p>
+<div class="course-grid" data-level="high">
+    <button class="grade-button" data-grade="10">پایه دهم</button>
+    <button class="grade-button" data-grade="11">پایه یازدهم</button>
+    <button class="grade-button" data-grade="12">پایه دوازدهم</button>
+</div>
+    </section>
+
+</div>
+    </section>
+</main>
+
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

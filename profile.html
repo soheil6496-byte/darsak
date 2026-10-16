@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>حساب کاربری | درسک</title>
+
+    <link rel="icon" href="images/darsak-logo.png">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .profile-page {
+            max-width: 900px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .profile-heading {
+            margin-bottom: 28px;
+        }
+
+        .profile-heading h1 {
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .profile-heading p {
+            color: #777;
+            line-height: 1.9;
+        }
+
+        .profile-card {
+            padding: 28px;
+            background: var(--card-bg, #fff);
+            color: var(--text-color, #222);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 76px;
+            height: 76px;
+            margin-bottom: 18px;
+            border-radius: 50%;
+            background: #e8f2ff;
+            color: #1769d2;
+            font-size: 34px;
+        }
+
+        .profile-info {
+            margin: 24px 0;
+            padding: 18px;
+            background: rgba(128, 128, 128, 0.07);
+            border-radius: 12px;
+        }
+
+        .profile-info p {
+            line-height: 1.9;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .profile-actions a {
+            display: inline-block;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background: #1769d2;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .profile-actions a:hover {
+            background: #1055ad;
+            transform: translateY(-2px);
+        }
+
+        .profile-back {
+            display: inline-block;
+            margin-top: 24px;
+            color: #1769d2;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .profile-page {
+                margin: 20px auto;
+                padding: 14px;
+            }
+
+            .profile-heading h1 {
+                font-size: 25px;
+            }
+
+            .profile-card {
+                padding: 20px;
+            }
+        }
+.profile-actions button {
+    padding: 12px 18px;
+    border: 1px solid #f0caca;
+    border-radius: 10px;
+    background: #fff0f0;
+    color: #c62828;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.profile-actions button:hover {
+    background: #ffe0e0;
+    transform: translateY(-2px);
+}
+/* کارت‌های آماری داشبورد درسک */
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.profile-stat-card {
+    padding: 20px 14px;
+    border: 1px solid #e5eaf2;
+    border-radius: 15px;
+    background: #f8fbff;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.profile-stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(23, 105, 210, 0.10);
+}
+
+.profile-stat-icon {
+    font-size: 30px;
+}
+
+.profile-stat-card h3 {
+    margin: 12px 0 8px;
+    font-size: 15px;
+}
+
+.profile-stat-card p {
+    margin: 0;
+    color: #1769d2;
+    font-size: 14px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 650px) {
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="brand">
+            <img src="images/darsak-logo.png" alt="لوگوی درسک">
+            <span>درسک</span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html">خانه</a>
+            <a href="books.html">کتاب‌ها</a>
+            <a href="index.html#resources">جزوه‌ها و منابع</a>
+        </nav>
+
+        <a href="auth.html" class="login-button">ورود / ثبت‌نام</a>
+    </header>
+
+    <main class="profile-page">
+        <section class="profile-heading">
+<h1>سلام، خوش اومدی! 👋</h1>
+<p id="profileWelcome">به پنل کاربری درسک خوش اومدی!</p>
+        </section>
+
+        <section class="profile-card">
+            <div class="profile-avatar">👤</div>
+
+            <h2>اطلاعات حساب</h2>
+            <p>اطلاعات حساب آزمایشی شما در این بخش نمایش داده می‌شه.</p>
+
+            <div class="profile-stats">
+
+    <div class="profile-stat-card">
+        <span class="profile-stat-icon">👤</span>
+        <h3>وضعیت حساب</h3>
+        <p id="accountStat">مهمان</p>
+    </div>
+
+    <div class="profile-stat-card">
+        <span class="profile-stat-icon">🛍️</span>
+        <h3>خریدهای من</h3>
+        <p>۰ خرید ثبت‌شده</p>
+    </div>
+
+    <div class="profile-stat-card">
+        <span class="profile-stat-icon">📚</span>
+        <h3>منابع آموزشی</h3>
+        <p>مشاهده کتاب‌ها</p>
+    </div>
+
+</div>
+            <div class="profile-info">
+                <p><strong>ایمیل:</strong> <span id="profileEmail">در حال بررسی...</span></p>
+                <p><strong>وضعیت حساب:</strong> <span id="profileStatus">در حال بررسی...</span></p>
+            </div>
+
+            <div class="profile-actions">
+                <a href="my-purchases.html">🛍️ خریدهای من</a>
+                <a href="books.html">📚 مشاهده کتاب‌ها</a>
+                <button type="button" id="profileLogout">🚪 خروج از حساب</button>
+            </div>
+        </section>
+
+        <a class="profile-back" href="index.html">← بازگشت به صفحه اصلی</a>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+
+
+    <script>
+        
+async function loadProfile() {
+    const emailElement = document.getElementById("profileEmail");
+    const statusElement = document.getElementById("profileStatus");
+    const accountStat = document.getElementById("accountStat");
+    const welcomeElement = document.getElementById("profileWelcome");
+    const profileCard = document.querySelector(".profile-card");
+
+    try {
+        const { data, error } = await supabaseClient.auth.getUser();
+
+        if (error) {
+            throw error;
+        }
+
+        const user = data.user;
+
+        if (user && user.email) {
+            accountStat.textContent = "فعال";
+            welcomeElement.textContent =
+                "خوش اومدی، " + user.email + " عزیز!";
+
+            emailElement.textContent = user.email;
+            statusElement.textContent = "ورود فعال";
+
+            // حذف پیام ورود مهمان، در صورت وجود
+            const oldNotice = document.getElementById("profileLoginNotice");
+            if (oldNotice) oldNotice.remove();
+
+        } else {
+            accountStat.textContent = "مهمان";
+            emailElement.textContent = "وارد حساب نشده‌اید";
+            statusElement.textContent = "مهمان";
+
+            if (profileCard &&
+                !document.getElementById("profileLoginNotice")) {
+
+                const notice = document.createElement("p");
+                notice.id = "profileLoginNotice";
+                notice.textContent =
+                    "برای مشاهده اطلاعات حساب، ابتدا وارد شوید یا ثبت‌نام کنید.";
+
+                const loginLink = document.createElement("a");
+                loginLink.href = "auth.html";
+                loginLink.className = "purchases-button";
+                loginLink.textContent = "ورود / ثبت‌نام";
+
+                profileCard.append(notice, loginLink);
+            }
+        }
+    } catch (error) {
+        console.error("خطا در بارگذاری حساب کاربری:", error);
+        statusElement.textContent = "خطا در دریافت اطلاعات حساب";
+    }
+}
+
+loadProfile();
+
+const profileLogout = document.getElementById("profileLogout");
+
+if (profileLogout) {
+    profileLogout.addEventListener("click", async function () {
+        profileLogout.disabled = true;
+
+        const { error } = await supabaseClient.auth.signOut();
+
+        if (error) {
+            console.error("خطا در خروج:", error);
+            profileLogout.disabled = false;
+            alert("خروج انجام نشد. لطفاً دوباره امتحان کن.");
+            return;
+        }
+
+        window.location.href = "auth.html";
+    });
+}
+    </script>
+
+</body>
+</html>

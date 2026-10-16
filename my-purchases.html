@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>خریدهای من | درسک</title>
+
+    <link rel="icon" href="images/darsak-logo.png">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .purchases-page {
+            max-width: 1000px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .purchases-heading {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .purchases-heading h1 {
+            font-size: 30px;
+        }
+
+        .purchases-heading p {
+            color: #777;
+            line-height: 1.9;
+        }
+
+        .purchases-card {
+            padding: 28px;
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 18px;
+            background: var(--card-bg, #fff);
+            color: var(--text-color, #222);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .purchases-empty {
+            padding: 35px 15px;
+            text-align: center;
+        }
+
+        .purchases-empty .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .purchases-empty h2 {
+            font-size: 21px;
+        }
+
+        .purchases-empty p {
+            color: #777;
+            line-height: 2;
+        }
+
+        .purchases-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            background: #1769d2;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .purchases-button:hover {
+            background: #1055ad;
+            transform: translateY(-2px);
+        }
+
+        .purchases-back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #1769d2;
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .purchases-page {
+                margin: 20px auto;
+                padding: 14px;
+            }
+
+            .purchases-heading h1 {
+                font-size: 25px;
+            }
+
+            .purchases-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="brand">
+            <img src="images/darsak-logo.png" alt="لوگوی درسک">
+            <span>درسک</span>
+        </a>
+
+        <nav class="main-nav">
+            <a href="index.html">خانه</a>
+            <a href="books.html">کتاب‌ها</a>
+            <a href="index.html#resources">جزوه‌ها و منابع</a>
+        </nav>
+
+        <a href="auth.html" class="login-button">ورود / ثبت‌نام</a>
+    </header>
+
+    <main class="purchases-page">
+
+        <section class="purchases-heading">
+            <h1>🛍️ خریدهای من</h1>
+            <p>اینجا می‌تونی وضعیت منابع آموزشی خریداری‌شده‌ات رو ببینی.</p>
+        </section>
+
+        <section class="purchases-card">
+            <div class="purchases-empty">
+                <div class="empty-icon">📚</div>
+
+                <h2>هنوز خریدی ثبت نشده!</h2>
+
+                <p>
+                    وقتی خرید واقعی در حساب کاربری‌ات ثبت بشه،
+                    محصولاتت در این قسمت نمایش داده می‌شن.
+                </p>
+
+                <a href="books.html" class="purchases-button">
+                    مشاهده کتاب‌ها
+                </a>
+            </div>
+        </section>
+
+        <a href="index.html" class="purchases-back">
+            ← بازگشت به صفحه اصلی
+        </a>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
