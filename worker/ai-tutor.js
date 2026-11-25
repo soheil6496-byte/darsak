@@ -1,16 +1,30 @@
 const MODEL = "@cf/google/gemma-4-26b-a4b-it";
 const DAILY_LIMIT = 2000;
 const MAX_OUTPUT = 384;
-const ORIGIN = "https://darsaak.ir";
 
-function json(data, status = 200) {
-  return new Response(JSON.stringify(data), {status, headers: {
+// The production site uses the apex domain. Keep www as an accepted canonical
+// variant so browser preflight requests are not rejected after a redirect.
+const ALLOWED_ORIGINS = new Set([
+  "https://darsaak.ir",
+  "https://www.darsaak.ir"
+]);
+
+function corsHeaders(origin) {
+  return {
     "content-type": "application/json; charset=utf-8",
-    "access-control-allow-origin": ORIGIN,
-    "access-control-allow-methods": "POST, OPTIONS",
+    "access-control-allow-origin": origin,
+    "access-control-allow-methods": "GET, POST, OPTIONS",
     "access-control-allow-headers": "Authorization, Content-Type",
+    "access-control-max-age": "86400",
     "vary": "Origin"
-  }});
+  };
+}
+
+function json(data, status = 200, origin) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: corsHeaders(origin)
+  });
 }
 
 async function supabaseRpc(env, token, name, args) {
@@ -35,69 +49,115 @@ async function supabaseRpc(env, token, name, args) {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    if (origin !== ORIGIN) return new Response("Forbidden", {status: 403});
-    if (request.method === "OPTIONS") return new Response(null, {status: 204, headers: {
-      "access-control-allow-origin": ORIGIN,
-      "access-control-allow-methods": "POST, OPTIONS",
-      "access-control-allow-headers": "Authorization, Content-Type",
-      "access-control-max-age": "86400",
-      "vary": "Origin"
-    }});
-    if (request.method !== "POST") return json({error: "روش درخواست پشتیبانی نمی‌شود."}, 405);
-    if (!env.AI || !env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) return json({error: "سرویس هوشمند هنوز کامل پیکربندی نشده است."}, 503);
+    if (!ALLOWED_ORIGINS.has(origin)) {
+      return new Response("Forbidden origin", { status: 403 });
+    }
+
+    // Handle CORS preflight before parsing a body or checking authentication.
+    if (request.method === "OPTIONS") {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          "access-control-allow-origin": origin,
+          "access-control-allow-methods": "GET, POST, OPTIONS",
+          "access-control-allow-headers": "Authorization, Content-Type",
+          "access-control-max-age": "86400",
+          "vary": "Origin"
+        }
+      });
+    }
+
+    // A lightweight health endpoint lets the browser verify DNS, TLS and Worker
+    // routing separately from Supabase authentication and model inference.
+    if (request.method === "GET") {
+      return json({ ok: true, service: "darsak-ai-tutor", model: "Gemma 4 A4B" }, 200, origin);
+    }
+
+    if (request.method !== "POST") {
+      return json({ error: "روش درخواست پشتیبانی نمی‌شود." }, 405, origin);
+    }
+    if (!env.AI || !env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+      return json({ error: "سرویس هوشمند هنوز کامل پیکربندی نشده است." }, 503, origin);
+    }
 
     const auth = request.headers.get("Authorization") || "";
-    if (!auth.startsWith("Bearer ")) return json({error: "برای استفاده وارد حساب درسک شو."}, 401);
+    if (!auth.startsWith("Bearer ")) {
+      return json({ error: "برای استفاده وارد حساب درسک شو." }, 401, origin);
+    }
     const token = auth.slice(7);
 
     let body;
     try {
-      if (Number(request.headers.get("content-length") || 0) > 24000) return json({error: "پیام بیش از حد طولانی است."}, 413);
+      if (Number(request.headers.get("content-length") || 0) > 24000) {
+        return json({ error: "پیام بیش از حد طولانی است." }, 413, origin);
+      }
       body = await request.json();
-    } catch { return json({error: "درخواست نامعتبر است."}, 400); }
+    } catch {
+      return json({ error: "درخواست نامعتبر است." }, 400, origin);
+    }
 
     const messages = Array.isArray(body.messages) ? body.messages : [];
-    if (!messages.length || messages.length > 12) return json({error: "گفت‌وگو نامعتبر است."}, 400);
+    if (!messages.length || messages.length > 12) {
+      return json({ error: "گفت‌وگو نامعتبر است." }, 400, origin);
+    }
     const clean = [];
     for (const m of messages) {
       if (!m || !["user", "assistant"].includes(m.role) || typeof m.content !== "string") continue;
       const content = m.content.trim();
-      if (!content || content.length > 5000) return json({error: "هر پیام باید کمتر از ۵۰۰۰ نویسه باشد."}, 400);
-      clean.push({role: m.role, content});
+      if (!content || content.length > 5000) {
+        return json({ error: "هر پیام باید کمتر از ۵۰۰۰ نویسه باشد." }, 400, origin);
+      }
+      clean.push({ role: m.role, content });
     }
-    if (!clean.length || clean[clean.length - 1].role !== "user") return json({error: "پیام کاربر پیدا نشد."}, 400);
+    if (!clean.length || clean[clean.length - 1].role !== "user") {
+      return json({ error: "پیام کاربر پیدا نشد." }, 400, origin);
+    }
 
     const inputEstimate = Math.ceil(clean.reduce((n, m) => n + m.content.length, 0) / 3.2) + 180;
     const reserveTokens = inputEstimate + MAX_OUTPUT;
-    if (reserveTokens > DAILY_LIMIT) return json({error: "این گفت‌وگو برای سهمیهٔ روزانه بیش از حد طولانی است."}, 413);
+    if (reserveTokens > DAILY_LIMIT) {
+      return json({ error: "این گفت‌وگو برای سهمیهٔ روزانه بیش از حد طولانی است." }, 413, origin);
+    }
 
     let reservationId;
     try {
-      const result = await supabaseRpc(env, token, "reserve_ai_tokens", {p_tokens: reserveTokens});
+      const result = await supabaseRpc(env, token, "reserve_ai_tokens", { p_tokens: reserveTokens });
       const reservation = Array.isArray(result) ? result[0] : result;
-      if (!reservation?.allowed || !reservation?.reservation_id) return json({
-        error: "سهمیهٔ امروزت تمام شده است.",
-        used: reservation?.tokens_used || 0,
-        limit: DAILY_LIMIT,
-        remaining: reservation?.tokens_remaining || 0
-      }, 429);
+      if (!reservation?.allowed || !reservation?.reservation_id) {
+        return json({
+          error: "سهمیهٔ امروزت تمام شده است.",
+          used: reservation?.tokens_used || 0,
+          limit: DAILY_LIMIT,
+          remaining: reservation?.tokens_remaining || 0
+        }, 429, origin);
+      }
       reservationId = reservation.reservation_id;
     } catch (error) {
       const status = error.status === 401 || error.status === 403 ? 401 : 503;
-      return json({error: status === 401 ? "نشست ورود معتبر نیست؛ دوباره وارد حساب شو." : "رزرو سهمیه در پایگاه داده انجام نشد."}, status);
+      return json({
+        error: status === 401
+          ? "نشست ورود معتبر نیست؛ دوباره وارد حساب شو."
+          : "رزرو سهمیه در پایگاه داده انجام نشد."
+      }, status, origin);
     }
 
     try {
       const result = await env.AI.run(MODEL, {
         messages: [
-          {role: "system", content: "تو معلم هوشمند فارسی‌زبان درسک هستی. با لحنی روشن، صبور، دقیق و متناسب با دانش‌آموزان مدرسه آموزش بده. پاسخ را مرحله‌به‌مرحله و با مثال ساده توضیح بده. اگر صورت سؤال مبهم است، یک سؤال روشن‌کننده بپرس. پاسخ‌ها را به فارسی بنویس. اطلاعات ساختگی نساز. در موضوعات خطرناک یا نامناسب برای نوجوانان، ایمن و مسئولانه پاسخ بده."},
+          {
+            role: "system",
+            content: "تو معلم هوشمند فارسی‌زبان درسک هستی. با لحنی روشن، صبور، دقیق و متناسب با دانش‌آموزان مدرسه آموزش بده. پاسخ را مرحله‌به‌مرحله و با مثال ساده توضیح بده. اگر صورت سؤال مبهم است، یک سؤال روشن‌کننده بپرس. پاسخ‌ها را به فارسی بنویس. اطلاعات ساختگی نساز. در موضوعات خطرناک یا نامناسب برای نوجوانان، ایمن و مسئولانه پاسخ بده."
+          },
           ...clean
         ],
         max_tokens: MAX_OUTPUT,
         temperature: 0.35
       });
       const answer = result?.response || result?.result?.response || "";
-      if (typeof answer !== "string" || !answer.trim()) throw new Error("empty model response");
+      if (typeof answer !== "string" || !answer.trim()) {
+        throw new Error("empty model response");
+      }
+
       // Character-based estimate, not the model's exact tokenizer count.
       const actualEstimate = Math.min(reserveTokens, inputEstimate + Math.ceil(answer.length / 3.2));
       const settled = await supabaseRpc(env, token, "settle_ai_tokens", {
@@ -111,10 +171,14 @@ export default {
         limit: DAILY_LIMIT,
         remaining: usage?.tokens_remaining ?? Math.max(0, DAILY_LIMIT - actualEstimate),
         model: "Gemma 4 A4B"
-      });
+      }, 200, origin);
     } catch {
-      try { await supabaseRpc(env, token, "cancel_ai_token_reservation", {p_reservation_id: reservationId}); } catch {}
-      return json({error: "مدل فعلاً پاسخ نداد. سهمیهٔ رزروشده آزاد شد؛ دوباره امتحان کن."}, 502);
+      try {
+        await supabaseRpc(env, token, "cancel_ai_token_reservation", { p_reservation_id: reservationId });
+      } catch {}
+      return json({
+        error: "مدل فعلاً پاسخ نداد. سهمیهٔ رزروشده آزاد شد؛ دوباره امتحان کن."
+      }, 502, origin);
     }
   }
 };
