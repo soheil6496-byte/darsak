@@ -161,7 +161,8 @@ export default {
           ...clean
         ],
         max_tokens: MAX_OUTPUT,
-        temperature: 0.35
+        temperature: 0.35,
+        chat_template_kwargs: { enable_thinking: false }
       });
       const answer = result?.choices?.[0]?.message?.content || result?.response || result?.result?.response || "";
       if (typeof answer !== "string" || !answer.trim()) {
