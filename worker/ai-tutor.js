@@ -77,9 +77,32 @@ export default {
       return new Response("Forbidden origin", { status: 403 });
     }
 
-    // A lightweight health endpoint lets the browser verify DNS, TLS and Worker
-    // routing separately from Supabase authentication and model inference.
+    // Authenticated GET returns the persisted quota for the signed-in account.
     if (request.method === "GET") {
+      const auth = request.headers.get("Authorization") || "";
+      if (auth.startsWith("Bearer ") && env.SUPABASE_URL && env.SUPABASE_ANON_KEY) {
+        try {
+          const rows = await supabaseRpc(
+            env,
+            auth.slice(7),
+            "get_ai_quota",
+            {}
+          );
+          const quota = Array.isArray(rows) ? rows[0] : rows;
+          return json({
+            ok: true,
+            used: quota?.tokens_used ?? 0,
+            reserved: quota?.tokens_reserved ?? 0,
+            remaining: quota?.tokens_remaining ?? DAILY_LIMIT,
+            limit: DAILY_LIMIT,
+            usageDate: quota?.usage_date ?? null,
+            model: "Gemma 4 A4B"
+          }, 200, origin);
+        } catch (error) {
+          const status = error.status === 401 || error.status === 403 ? 401 : 503;
+          return json({ error: status === 401 ? "نشست ورود معتبر نیست؛ دوباره وارد حساب شو." : "دریافت سهمیه از پایگاه داده انجام نشد." }, status, origin);
+        }
+      }
       return json({ ok: true, service: "darsak-ai-tutor", model: "Gemma 4 A4B" }, 200, origin);
     }
 
