@@ -5,7 +5,7 @@
 - Model: Cloudflare Workers AI `@cf/google/gemma-4-26b-a4b-it`
 - Daily quota: 2,000 estimated LLM tokens per authenticated user (UTC day).
 - Authentication: verifies the Supabase access token against the existing site's Supabase Auth project.
-- Storage: Cloudflare D1 database `darsak-ai-usage`.
+- Storage: Cloudflare D1 database `darsak-ai-usage` (existing table schema: `daily_usage(user_id, day, used_tokens)`).\n- Worker endpoint: `https://darsak-ai.darsak-ai.workers.dev`.
 
 ## Deployment requirements
 Worker bindings:
@@ -16,4 +16,4 @@ Worker bindings:
 
 Do not change the site's Supabase project just to deploy AI. The frontend sends the user's existing access token; the Worker validates it against the same Supabase project configured in `supabase.js`.
 
-Token accounting is conservative character-based estimation, not tokenizer-reported exact usage. Do not describe it as exact token metering.
+Token accounting is a conservative character-based estimate, not exact tokenizer-reported usage. The daily 2,000-token limit is enforced server-side using this estimate; it is not exact model token metering.
