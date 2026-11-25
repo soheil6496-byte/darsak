@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="معلم هوشمند درسک؛ یادگیری و حل تمرین با کمک هوش مصنوعی">
+<title>معلم هوشمند | درسک</title>
+<link rel="icon" href="images/darsak-logo-dark.png"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="ai.css">
+</head>
+<body class="ai-page">
+<header class="site-header">
+<a href="index.html" class="brand"><img src="images/darsak-logo.png" alt="لوگوی درسک"><span>درسک</span></a>
+<nav class="main-nav"><a href="index.html">خانه</a><a href="books.html">کتاب‌ها</a><a href="tools.html">ابزارها</a></nav>
+<a href="auth.html" class="login-button" id="ai-login">ورود / ثبت‌نام</a>
+</header>
+<main class="ai-shell">
+<section class="ai-intro"><div class="ai-orb">✦</div><span class="ai-eyebrow">DARSAK AI • GEMMA 4</span>
+<h1>معلم هوشمند درسک</h1><p>هر سؤالی داری بپرس؛ با هم قدم‌به‌قدم یاد می‌گیریم.</p>
+<div class="ai-chips"><span>📚 توضیح درس‌ها</span><span>🧠 حل تمرین</span><span>✍️ نمونه‌سؤال</span></div></section>
+<section class="chat-card">
+<div class="chat-top"><div><strong>گفت‌وگوی آموزشی</strong><small id="ai-status">در حال بررسی اتصال...</small></div><button id="clear-chat" class="ghost-btn" type="button">گفت‌وگوی جدید ↻</button></div>
+<div id="chat-messages" class="chat-messages" aria-live="polite"><div class="welcome-message"><div class="welcome-icon">✦</div><h2>سلام! آماده‌ای یاد بگیری؟</h2><p>مثلاً یکی از این موضوع‌ها رو انتخاب کن:</p><div class="suggestions"><button type="button">قضیهٔ فیثاغورس رو ساده توضیح بده</button><button type="button">چطور یک انشا خوب بنویسم؟</button><button type="button">فتوسنتز چطور انجام می‌شه؟</button></div></div></div>
+<form id="ai-form" class="chat-compose"><textarea id="ai-input" rows="1" maxlength="5000" placeholder="سؤالت رو اینجا بنویس..." aria-label="متن سؤال"></textarea><button id="send-ai" type="submit" aria-label="ارسال پیام">➤</button></form>
+<div class="chat-footer"><span id="quota-label">سهمیهٔ روزانه: ۲۰۰۰ توکن</span><span>پاسخ هوش مصنوعی ممکن است نیاز به بررسی داشته باشد.</span></div>
+</section><a class="back-link" href="index.html">← بازگشت به صفحهٔ اصلی درسک</a>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase.js"></script><script src="ai.js"></script>
+</body></html>
