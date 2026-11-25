@@ -73,8 +73,8 @@ export default {
     const day = new Date().toISOString().slice(0, 10);
     const reservation = await env.DB.prepare(
       "INSERT INTO daily_usage (user_id, day, used_tokens) VALUES (?, ?, ?) " +
-      "ON CONFLICT(user_id, usage_date) DO UPDATE SET tokens_used = tokens_used + excluded.used_tokens, updated_at = CURRENT_TIMESTAMP " +
-      "WHERE daily_usage.used_tokens + excluded.tokens_used <= ? RETURNING used_tokens"
+      "ON CONFLICT(user_id, day) DO UPDATE SET used_tokens = used_tokens + excluded.used_tokens " +
+      "WHERE daily_usage.used_tokens + excluded.used_tokens <= ? RETURNING used_tokens"
     ).bind(user.id, day, reserve, DAILY_LIMIT).first();
 
     if (!reservation) {
@@ -96,12 +96,12 @@ export default {
       const actual = inputEstimate + Math.ceil(answer.length / 3.2);
       const delta = actual - reserve;
       if (delta < 0) {
-        await env.DB.prepare("UPDATE daily_usage SET used_tokens = MAX(0, used_tokens + ?), updated_at = CURRENT_TIMESTAMP WHERE user_id = ? AND usage_date = ?").bind(delta, user.id, day).run();
+        await env.DB.prepare("UPDATE daily_usage SET used_tokens = MAX(0, used_tokens + ?) WHERE user_id = ? AND usage_date = ?").bind(delta, user.id, day).run();
       }
       const usage = await env.DB.prepare("SELECT used_tokens FROM daily_usage WHERE user_id = ? AND usage_date = ?").bind(user.id, day).first();
       return json({ answer: answer.trim(), used: usage?.tokens_used || actual, limit: DAILY_LIMIT, model: "Gemma 4 A4B" });
     } catch {
-      await env.DB.prepare("UPDATE daily_usage SET used_tokens = MAX(0, used_tokens - ?), updated_at = CURRENT_TIMESTAMP WHERE user_id = ? AND usage_date = ?").bind(reserve, user.id, day).run();
+      await env.DB.prepare("UPDATE daily_usage SET used_tokens = MAX(0, used_tokens - ?) WHERE user_id = ? AND usage_date = ?").bind(reserve, user.id, day).run();
       return json({ error: "مدل فعلاً پاسخ نداد. سهمیهٔ رزروشده آزاد شد؛ دوباره امتحان کن." }, 502);
     }
   }
