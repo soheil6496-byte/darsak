@@ -1,4 +1,4 @@
-const AI_WORKER_URL = "https://darsak-ai-tutor.workers.dev";
+const AI_WORKER_URL = "https://darsak-ai.darsak-ai.workers.dev";
 const form = document.getElementById("ai-form");
 const input = document.getElementById("ai-input");
 const messagesEl = document.getElementById("chat-messages");
