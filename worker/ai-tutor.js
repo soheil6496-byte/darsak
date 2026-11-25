@@ -49,12 +49,18 @@ async function supabaseRpc(env, token, name, args) {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("Origin") || "";
-    if (!ALLOWED_ORIGINS.has(origin)) {
-      return new Response("Forbidden origin", { status: 403 });
+
+    // Permit a plain browser navigation to the health endpoint (no Origin header).
+    if (request.method === "GET" && !origin) {
+      return new Response(JSON.stringify({ ok: true, service: "darsak-ai-tutor", model: "Gemma 4 A4B" }), {
+        status: 200,
+        headers: { "content-type": "application/json; charset=utf-8" }
+      });
     }
 
     // Handle CORS preflight before parsing a body or checking authentication.
     if (request.method === "OPTIONS") {
+      if (!ALLOWED_ORIGINS.has(origin)) return new Response("Forbidden origin", { status: 403 });
       return new Response(null, {
         status: 204,
         headers: {
@@ -65,6 +71,10 @@ export default {
           "vary": "Origin"
         }
       });
+    }
+
+    if (!ALLOWED_ORIGINS.has(origin)) {
+      return new Response("Forbidden origin", { status: 403 });
     }
 
     // A lightweight health endpoint lets the browser verify DNS, TLS and Worker
