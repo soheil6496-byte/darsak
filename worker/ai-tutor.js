@@ -163,7 +163,7 @@ export default {
         max_tokens: MAX_OUTPUT,
         temperature: 0.35
       });
-      const answer = result?.response || result?.result?.response || "";
+      const answer = result?.choices?.[0]?.message?.content || result?.response || result?.result?.response || "";
       if (typeof answer !== "string" || !answer.trim()) {
         throw new Error("empty model response");
       }
