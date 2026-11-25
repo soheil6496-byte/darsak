@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>بازی دوز | درسک</title>
+
+    <link rel="icon" type="image/png" href="../images/darsak-logo-dark.png">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .ttt-page {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .ttt-card {
+            background: var(--card-bg, #fff);
+            color: var(--text-color, #222);
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.08);
+            border: 1px solid var(--border-color, #ddd);
+        }
+
+        .mode-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .mode-buttons button,
+        .game-actions button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 12px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .mode-buttons button.active {
+            background: #0f172a;
+        }
+
+        .mode-buttons button:hover,
+        .game-actions button:hover {
+            opacity: .85;
+        }
+
+        .difficulty {
+            margin: 15px 0;
+        }
+
+        .difficulty select {
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #aaa;
+            font-size: 15px;
+        }
+
+        .game-status {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 22px 0;
+            min-height: 30px;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 360px;
+            margin: 20px auto;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 16px;
+            background: #e2e8f0;
+            color: #1e293b;
+            font-size: clamp(40px, 10vw, 65px);
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .cell:hover:not(:disabled) {
+            background: #cbd5e1;
+            transform: scale(1.03);
+        }
+
+        .cell:disabled {
+            cursor: default;
+        }
+
+        .cell.x {
+            color: #2563eb;
+        }
+
+        .cell.o {
+            color: #e11d48;
+        }
+
+        .scoreboard {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .score-item {
+            background: #f1f5f9;
+            color: #1e293b;
+            border-radius: 12px;
+            padding: 12px 18px;
+            min-width: 90px;
+        }
+
+        .score-item strong {
+            display: block;
+            font-size: 24px;
+            margin-top: 5px;
+        }
+
+        .game-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .game-actions .reset-score {
+            background: #64748b;
+        }
+
+        html[data-theme="dark"] .ttt-card {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+
+        html[data-theme="dark"] .cell {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        html[data-theme="dark"] .cell:hover:not(:disabled) {
+            background: #475569;
+        }
+
+        html[data-theme="dark"] .score-item {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        html[data-theme="dark"] .difficulty select {
+            background: #334155;
+            color: white;
+            border-color: #475569;
+        }
+
+        @media (max-width: 500px) {
+            .ttt-card {
+                padding: 18px 12px;
+            }
+
+            .mode-buttons button {
+                flex: 1 1 40%;
+            }
+
+            .board {
+                gap: 7px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a href="../index.html" class="brand">
+        <img
+    id="darsak-logo"
+    src="../images/darsak-logo.png"
+    alt="لوگوی درسک"
+>
+        <span>درسک</span>
+    </a>
+
+    <nav>
+        <a href="../index.html">صفحه اصلی</a>
+        <a href="../tools.html">ابزارها</a>
+        <a href="../auth.html" class="login-button login-nav-btn">
+            ورود / ثبت‌نام
+        </a>
+    </nav>
+</header>
+
+<main class="ttt-page">
+
+    <h1>⭕ بازی دوز</h1>
+    <p>حریف خودت رو انتخاب کن و وارد رقابت شو!</p>
+
+    <section class="ttt-card">
+
+        <h2>انتخاب حالت بازی</h2>
+
+        <div class="mode-buttons">
+            <button class="active" onclick="setMode('pvp', this)">
+                👥 دو نفره
+            </button>
+
+            <button onclick="setMode('bot', this)">
+                🤖 مقابل ربات
+            </button>
+
+            <button onclick="setMode('team', this)">
+                👥👥 دو به دو
+            </button>
+        </div>
+
+        <div class="difficulty" id="difficultyBox" hidden>
+            <label for="difficulty">درجه سختی ربات: </label>
+
+            <select id="difficulty" onchange="resetGame()">
+                <option value="easy">آسان</option>
+                <option value="medium">متوسط</option>
+                <option value="hard">سخت</option>
+            </select>
+        </div>
+
+        <div class="game-status" id="status">
+            نوبت بازیکن X
+        </div>
+
+        <div class="board" id="board">
+            <button class="cell" onclick="play(0)"></button>
+            <button class="cell" onclick="play(1)"></button>
+            <button class="cell" onclick="play(2)"></button>
+            <button class="cell" onclick="play(3)"></button>
+            <button class="cell" onclick="play(4)"></button>
+            <button class="cell" onclick="play(5)"></button>
+            <button class="cell" onclick="play(6)"></button>
+            <button class="cell" onclick="play(7)"></button>
+            <button class="cell" onclick="play(8)"></button>
+        </div>
+
+        <div class="scoreboard">
+            <div class="score-item">
+                <span id="scoreXName">بازیکن X</span>
+                <strong id="scoreX">0</strong>
+            </div>
+
+            <div class="score-item">
+                مساوی
+                <strong id="scoreDraw">0</strong>
+            </div>
+
+            <div class="score-item">
+                <span id="scoreOName">بازیکن O</span>
+                <strong id="scoreO">0</strong>
+            </div>
+        </div>
+
+        <div class="game-actions">
+            <button onclick="resetGame()">🔄 بازی دوباره</button>
+            <button class="reset-score" onclick="resetScores()">
+                پاک کردن امتیازها
+            </button>
+        </div>
+
+    </section>
+
+</main>
+
+<script>
+    let board = Array(9).fill("");
+    let currentPlayer = "X";
+    let gameOver = false;
+    let mode = "pvp";
+
+    let scores = {
+        X: 0,
+        O: 0,
+        draw: 0
+    };
+
+    const cells = document.querySelectorAll(".cell");
+
+    const winningLines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
+
+    function setMode(newMode, button) {
+        mode = newMode;
+
+        document.querySelectorAll(".mode-buttons button")
+            .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        document.getElementById("difficultyBox").hidden =
+            mode !== "bot";
+
+        updateNames();
+        resetGame();
+    }
+
+    function updateNames() {
+        let xName = "بازیکن X";
+        let oName = "بازیکن O";
+
+        if (mode === "bot") {
+            oName = "ربات";
+        }
+
+        if (mode === "team") {
+            xName = "تیم X";
+            oName = "تیم O";
+        }
+
+        document.getElementById("scoreXName").textContent = xName;
+        document.getElementById("scoreOName").textContent = oName;
+    }
+
+    function play(index) {
+        if (gameOver || board[index] !== "") return;
+
+        if (mode === "bot" && currentPlayer === "O") return;
+
+        makeMove(index);
+
+        if (!gameOver && mode === "bot" && currentPlayer === "O") {
+            setTimeout(botMove, 400);
+        }
+    }
+
+    function makeMove(index) {
+        if (gameOver || board[index] !== "") return;
+
+        board[index] = currentPlayer;
+        renderBoard();
+
+        if (checkWinner(currentPlayer)) {
+            gameOver = true;
+            scores[currentPlayer]++;
+
+            document.getElementById("status").textContent =
+                currentPlayer === "X"
+                    ? "🎉 X برنده شد!"
+                    : "🎉 " + getOName() + " برنده شد!";
+
+            updateScores();
+            return;
+        }
+
+        if (board.every(cell => cell !== "")) {
+            gameOver = true;
+            scores.draw++;
+
+            document.getElementById("status").textContent =
+                "🤝 بازی مساوی شد!";
+
+            updateScores();
+            return;
+        }
+
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+
+        updateStatus();
+    }
+
+    function getOName() {
+        return mode === "bot" ? "ربات" : mode === "team" ? "تیم O" : "بازیکن O";
+    }
+
+    function updateStatus() {
+        if (currentPlayer === "X") {
+            document.getElementById("status").textContent =
+                mode === "team"
+                    ? "نوبت تیم X (بازیکن اول یا دوم)"
+                    : "نوبت بازیکن X";
+        } else {
+            document.getElementById("status").textContent =
+                mode === "bot"
+                    ? "نوبت ربات 🤖"
+                    : mode === "team"
+                        ? "نوبت تیم O (بازیکن اول یا دوم)"
+                        : "نوبت بازیکن O";
+        }
+    }
+
+    function checkWinner(player) {
+        return winningLines.some(line =>
+            line.every(index => board[index] === player)
+        );
+    }
+
+    function renderBoard() {
+        cells.forEach((cell, index) => {
+            cell.textContent = board[index];
+            cell.className = "cell";
+
+            if (board[index] === "X") {
+                cell.classList.add("x");
+            } else if (board[index] === "O") {
+                cell.classList.add("o");
+            }
+
+            cell.disabled = board[index] !== "" || gameOver;
+        });
+    }
+
+    function botMove() {
+        if (gameOver || mode !== "bot") return;
+
+        const difficulty =
+            document.getElementById("difficulty").value;
+
+        let move;
+
+        if (difficulty === "easy") {
+            move = randomMove();
+        } else if (difficulty === "medium") {
+            move = Math.random() < 0.5
+                ? randomMove()
+                : bestMove();
+        } else {
+            move = bestMove();
+        }
+
+        if (move !== undefined) {
+            makeMove(move);
+        }
+    }
+
+    function randomMove() {
+        const available = board
+            .map((value, index) => value === "" ? index : null)
+            .filter(index => index !== null);
+
+        return available[
+            Math.floor(Math.random() * available.length)
+        ];
+    }
+
+    function bestMove() {
+        let bestScore = -Infinity;
+        let move;
+
+        board.forEach((value, index) => {
+            if (value !== "") return;
+
+            board[index] = "O";
+
+            let score = minimax(board, 0, false);
+
+            board[index] = "";
+
+            if (score > bestScore) {
+                bestScore = score;
+                move = index;
+            }
+        });
+
+        return move;
+    }
+
+    function minimax(state, depth, isMaximizing) {
+        if (checkWinner("O")) return 10 - depth;
+        if (checkWinner("X")) return depth - 10;
+        if (state.every(cell => cell !== "")) return 0;
+
+        if (isMaximizing) {
+            let best = -Infinity;
+
+            state.forEach((value, index) => {
+                if (value !== "") return;
+
+                state[index] = "O";
+                best = Math.max(best, minimax(state, depth + 1, false));
+                state[index] = "";
+            });
+
+            return best;
+        } else {
+            let best = Infinity;
+
+            state.forEach((value, index) => {
+                if (value !== "") return;
+
+                state[index] = "X";
+                best = Math.min(best, minimax(state, depth + 1, true));
+                state[index] = "";
+            });
+
+            return best;
+        }
+    }
+
+    function resetGame() {
+        board = Array(9).fill("");
+        currentPlayer = "X";
+        gameOver = false;
+
+        renderBoard();
+        updateStatus();
+    }
+
+    function updateScores() {
+        document.getElementById("scoreX").textContent = scores.X;
+        document.getElementById("scoreO").textContent = scores.O;
+        document.getElementById("scoreDraw").textContent = scores.draw;
+    }
+
+    function resetScores() {
+        scores = { X: 0, O: 0, draw: 0 };
+        updateScores();
+        resetGame();
+    }
+
+    updateNames();
+    renderBoard();
+    updateStatus();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase.js"></script>
+<script src="../script.js"></script>
+
+</body>
+</html>

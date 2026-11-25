@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>یادداشت سریع | درسک</title>
+    <link rel="icon" type="image/png" href="../images/darsak-logo-dark.png">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .notes-container {
+            max-width: 1000px;
+            margin: 45px auto;
+            padding: 25px;
+        }
+
+        .notes-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .notes-heading p {
+            color: #64748b;
+            margin-top: 8px;
+        }
+
+        .notes-editor {
+            background: var(--card-bg, #fff);
+            padding: 22px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.06);
+            margin-bottom: 30px;
+        }
+
+        .notes-editor input,
+        .notes-editor textarea {
+            display: block;
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: var(--input-bg, #f1f5f9);
+            color: inherit;
+            font: inherit;
+            box-sizing: border-box;
+        }
+
+        .notes-editor textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .notes-editor button {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 22px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .notes-search {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px;
+            margin-bottom: 22px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: var(--input-bg, #f1f5f9);
+            color: inherit;
+            font: inherit;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 18px;
+        }
+
+        .note-card {
+            background: var(--card-bg, #fff);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 18px rgba(0,0,0,.04);
+            overflow-wrap: anywhere;
+        }
+
+        .note-card h3 {
+            margin: 0 0 12px;
+        }
+
+        .note-card p {
+            white-space: pre-wrap;
+            line-height: 1.8;
+            color: #64748b;
+        }
+
+        .note-date {
+            display: block;
+            margin-top: 15px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .note-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .note-actions button {
+            flex: 1;
+            padding: 9px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .edit-note {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .delete-note {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .empty-notes {
+            text-align: center;
+            color: #64748b;
+            padding: 35px;
+            grid-column: 1 / -1;
+        }
+
+        .notes-back {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        html[data-theme="dark"] .notes-editor,
+        html[data-theme="dark"] .note-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        html[data-theme="dark"] .notes-editor input,
+        html[data-theme="dark"] .notes-editor textarea,
+        html[data-theme="dark"] .notes-search {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+
+        html[data-theme="dark"] .notes-heading p,
+        html[data-theme="dark"] .note-card p,
+        html[data-theme="dark"] .empty-notes {
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .edit-note {
+            background: #1e3a8a;
+            color: #bfdbfe;
+        }
+
+        html[data-theme="dark"] .delete-note {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        @media(max-width: 600px) {
+            .notes-container {
+                padding: 15px;
+                margin: 25px auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a href="../index.html" class="brand">
+        <img
+    id="darsak-logo"
+    src="../images/darsak-logo.png"
+    alt="لوگوی درسک"
+>
+        <span>درسک</span>
+    </a>
+
+    <nav>
+        <a href="../index.html">صفحه اصلی</a>
+        <a href="../tools.html">ابزارها</a>
+        <a href="../auth.html" class="login-button login-nav-btn">
+            ورود و ثبت‌نام
+        </a>
+    </nav>
+</header>
+
+<main>
+    <section class="notes-container">
+
+        <div class="notes-heading">
+            <h1>📒 یادداشت‌های من</h1>
+            <p>ایده‌ها و نکات مهمت رو اینجا نگه دار!</p>
+        </div>
+
+        <form class="notes-editor" id="noteForm">
+            <input
+                type="text"
+                id="noteTitle"
+                placeholder="عنوان یادداشت..."
+                maxlength="100"
+                required
+            >
+
+            <textarea
+                id="noteContent"
+                placeholder="یادداشتت رو اینجا بنویس..."
+                maxlength="10000"
+                required
+            ></textarea>
+
+            <button type="submit" id="saveButton">
+                + ذخیره یادداشت
+            </button>
+        </form>
+
+        <input
+            type="search"
+            class="notes-search"
+            id="notesSearch"
+            placeholder="🔍 جستجو در یادداشت‌ها..."
+        >
+
+        <div class="notes-grid" id="notesGrid"></div>
+
+        <a href="../tools.html" class="notes-back">
+            ← بازگشت به ابزارها
+        </a>
+
+    </section>
+</main>
+
+<script>
+    const noteForm = document.getElementById("noteForm");
+    const noteTitle = document.getElementById("noteTitle");
+    const noteContent = document.getElementById("noteContent");
+    const notesGrid = document.getElementById("notesGrid");
+    const notesSearch = document.getElementById("notesSearch");
+    const saveButton = document.getElementById("saveButton");
+
+    let notes = JSON.parse(localStorage.getItem("darsakNotes") || "[]");
+    let editingId = null;
+
+    function saveNotes() {
+        localStorage.setItem("darsakNotes", JSON.stringify(notes));
+    }
+
+    function renderNotes() {
+        notesGrid.innerHTML = "";
+
+        const search = notesSearch.value.trim().toLowerCase();
+
+        const filteredNotes = notes.filter(note =>
+            note.title.toLowerCase().includes(search) ||
+            note.content.toLowerCase().includes(search)
+        );
+
+        if (filteredNotes.length === 0) {
+            notesGrid.innerHTML =
+                '<div class="empty-notes">یادداشتی پیدا نشد! 📒</div>';
+            return;
+        }
+
+        filteredNotes.forEach(note => {
+            const card = document.createElement("article");
+            card.className = "note-card";
+
+            const title = document.createElement("h3");
+            title.textContent = note.title;
+
+            const content = document.createElement("p");
+            content.textContent = note.content;
+
+            const date = document.createElement("small");
+            date.className = "note-date";
+            date.textContent = note.updatedAt
+                ? "آخرین ویرایش: " + note.updatedAt
+                : "";
+
+            const actions = document.createElement("div");
+            actions.className = "note-actions";
+
+            const editButton = document.createElement("button");
+            editButton.className = "edit-note";
+            editButton.textContent = "ویرایش";
+            editButton.addEventListener("click", () => editNote(note.id));
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "delete-note";
+            deleteButton.textContent = "حذف";
+            deleteButton.addEventListener("click", () => deleteNote(note.id));
+
+            actions.append(editButton, deleteButton);
+            card.append(title, content, date, actions);
+            notesGrid.appendChild(card);
+        });
+    }
+
+    noteForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const title = noteTitle.value.trim();
+        const content = noteContent.value.trim();
+
+        if (!title || !content) return;
+
+        if (editingId !== null) {
+            const note = notes.find(n => n.id === editingId);
+
+            if (note) {
+                note.title = title;
+                note.content = content;
+                note.updatedAt = new Date().toLocaleString("fa-IR");
+            }
+
+            editingId = null;
+            saveButton.textContent = "+ ذخیره یادداشت";
+        } else {
+            notes.unshift({
+                id: Date.now() + Math.random(),
+                title,
+                content,
+                updatedAt: new Date().toLocaleString("fa-IR")
+            });
+        }
+
+        saveNotes();
+        noteForm.reset();
+        renderNotes();
+    });
+
+    function editNote(id) {
+        const note = notes.find(n => n.id === id);
+
+        if (!note) return;
+
+        editingId = id;
+        noteTitle.value = note.title;
+        noteContent.value = note.content;
+        saveButton.textContent = "ذخیره تغییرات";
+
+        noteTitle.focus();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function deleteNote(id) {
+        if (!confirm("آیا از حذف این یادداشت مطمئنی؟")) return;
+
+        notes = notes.filter(n => n.id !== id);
+
+        if (editingId === id) {
+            editingId = null;
+            noteForm.reset();
+            saveButton.textContent = "+ ذخیره یادداشت";
+        }
+
+        saveNotes();
+        renderNotes();
+    }
+
+    notesSearch.addEventListener("input", renderNotes);
+
+    renderNotes();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase.js"></script>
+<script src="../script.js"></script>
+
+</body>
+</html>

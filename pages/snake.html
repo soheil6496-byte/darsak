@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>بازی مار | درسک</title>
+
+    <link rel="icon" type="image/png" href="../images/darsak-logo-dark.png">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .snake-page {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .snake-card {
+            background: var(--card-bg, #fff);
+            color: var(--text-color, #222);
+            border: 1px solid var(--border-color, #ddd);
+            border-radius: 22px;
+            padding: 25px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.08);
+        }
+
+        .snake-stats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .snake-stat {
+            background: #e2e8f0;
+            color: #1e293b;
+            padding: 12px 22px;
+            border-radius: 12px;
+            min-width: 110px;
+        }
+
+        .snake-stat strong {
+            display: block;
+            font-size: 25px;
+            margin-top: 5px;
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1;
+            margin: 20px auto;
+            background: #0f172a;
+            border: 5px solid #334155;
+            border-radius: 14px;
+            touch-action: none;
+        }
+
+        .snake-status {
+            font-size: 19px;
+            font-weight: bold;
+            min-height: 30px;
+            margin: 15px 0;
+        }
+
+        .snake-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .snake-actions button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .snake-actions button:hover {
+            opacity: .85;
+        }
+
+        .snake-actions .pause-btn {
+            background: #d97706;
+        }
+
+        .snake-actions .restart-btn {
+            background: #64748b;
+        }
+
+        .snake-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 65px);
+            justify-content: center;
+            gap: 7px;
+            margin: 25px auto 10px;
+            direction: ltr;
+        }
+
+        .snake-controls button {
+            height: 55px;
+            border: none;
+            border-radius: 12px;
+            background: #334155;
+            color: white;
+            font-size: 23px;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .snake-controls button:active {
+            background: #2563eb;
+        }
+
+        .snake-controls .empty {
+            visibility: hidden;
+        }
+
+        .snake-help {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        html[data-theme="dark"] .snake-card {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #334155;
+        }
+
+        html[data-theme="dark"] .snake-stat {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        html[data-theme="dark"] .snake-help {
+            color: #cbd5e1;
+        }
+
+        @media (max-width: 500px) {
+            .snake-card {
+                padding: 15px 10px;
+            }
+
+            .snake-controls {
+                grid-template-columns: repeat(3, 60px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a href="../index.html" class="brand">
+        <img
+    id="darsak-logo"
+    src="../images/darsak-logo.png"
+    alt="لوگوی درسک"
+>
+        <span>درسک</span>
+    </a>
+
+    <nav>
+        <a href="../index.html">صفحه اصلی</a>
+        <a href="../tools.html">ابزارها</a>
+        <a href="../auth.html" class="login-button login-nav-btn">
+            ورود / ثبت‌نام
+        </a>
+    </nav>
+</header>
+
+<main class="snake-page">
+
+    <h1>🐍 بازی مار</h1>
+    <p>غذا جمع کن، بزرگ‌تر شو و رکوردت رو بشکن!</p>
+
+    <section class="snake-card">
+
+        <div class="snake-stats">
+            <div class="snake-stat">
+                امتیاز
+                <strong id="score">0</strong>
+            </div>
+
+            <div class="snake-stat">
+                رکورد
+                <strong id="highScore">0</strong>
+            </div>
+        </div>
+
+        <div class="snake-status" id="status">
+            برای شروع، روی شروع بازی کلیک کن!
+        </div>
+
+        <canvas id="gameCanvas" width="500" height="500"></canvas>
+
+        <div class="snake-actions">
+            <button onclick="startGame()">▶ شروع بازی</button>
+            <button class="pause-btn" onclick="togglePause()" id="pauseButton">
+                ⏸ توقف
+            </button>
+            <button class="restart-btn" onclick="restartGame()">
+                🔄 شروع دوباره
+            </button>
+        </div>
+
+        <div class="snake-controls">
+            <button class="empty"></button>
+            <button onclick="changeDirection('up')">⬆️</button>
+            <button class="empty"></button>
+
+            <button onclick="changeDirection('left')">⬅️</button>
+            <button onclick="changeDirection('down')">⬇️</button>
+            <button onclick="changeDirection('right')">➡️</button>
+        </div>
+
+        <p class="snake-help">
+            کنترل با کلیدهای جهت‌دار یا WASD امکان‌پذیر است.
+            در موبایل از دکمه‌های بالا استفاده کن.
+        </p>
+
+    </section>
+
+</main>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const gridSize = 25;
+    const tileCount = canvas.width / gridSize;
+
+    let snake;
+    let food;
+    let direction;
+    let nextDirection;
+    let score = 0;
+    let gameRunning = false;
+    let gameOver = false;
+    let gameTimer = null;
+
+    let highScore = Number(localStorage.getItem("darsakSnakeHighScore")) || 0;
+
+    document.getElementById("highScore").textContent = highScore;
+
+    function initializeGame() {
+        snake = [
+            { x: 10, y: 10 },
+            { x: 9, y: 10 },
+            { x: 8, y: 10 }
+        ];
+
+        direction = "right";
+        nextDirection = "right";
+        score = 0;
+        gameRunning = false;
+        gameOver = false;
+
+        document.getElementById("score").textContent = score;
+        document.getElementById("status").textContent =
+            "برای شروع، روی شروع بازی کلیک کن!";
+
+        document.getElementById("pauseButton").textContent = "⏸ توقف";
+
+        spawnFood();
+        drawGame();
+    }
+
+    function spawnFood() {
+        do {
+            food = {
+                x: Math.floor(Math.random() * tileCount),
+                y: Math.floor(Math.random() * tileCount)
+            };
+        } while (
+            snake.some(part => part.x === food.x && part.y === food.y)
+        );
+    }
+
+    function drawGame() {
+        ctx.fillStyle = "#0f172a";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw subtle grid
+        ctx.strokeStyle = "#1e293b";
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i <= tileCount; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * gridSize, 0);
+            ctx.lineTo(i * gridSize, canvas.height);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(0, i * gridSize);
+            ctx.lineTo(canvas.width, i * gridSize);
+            ctx.stroke();
+        }
+
+        // Draw food
+        ctx.fillStyle = "#ef4444";
+        ctx.beginPath();
+        ctx.arc(
+            food.x * gridSize + gridSize / 2,
+            food.y * gridSize + gridSize / 2,
+            gridSize / 2 - 3,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+
+        // Draw snake
+        snake.forEach((part, index) => {
+            ctx.fillStyle = index === 0 ? "#4ade80" : "#22c55e";
+
+            ctx.fillRect(
+                part.x * gridSize + 2,
+                part.y * gridSize + 2,
+                gridSize - 4,
+                gridSize - 4
+            );
+        });
+
+        // Eyes on the head
+        const head = snake[0];
+
+        ctx.fillStyle = "#052e16";
+
+        let eyePositions = [];
+
+        if (direction === "right") {
+            eyePositions = [
+                [head.x * gridSize + 18, head.y * gridSize + 7],
+                [head.x * gridSize + 18, head.y * gridSize + 17]
+            ];
+        } else if (direction === "left") {
+            eyePositions = [
+                [head.x * gridSize + 7, head.y * gridSize + 7],
+                [head.x * gridSize + 7, head.y * gridSize + 17]
+            ];
+        } else if (direction === "up") {
+            eyePositions = [
+                [head.x * gridSize + 7, head.y * gridSize + 7],
+                [head.x * gridSize + 17, head.y * gridSize + 7]
+            ];
+        } else {
+            eyePositions = [
+                [head.x * gridSize + 7, head.y * gridSize + 18],
+                [head.x * gridSize + 17, head.y * gridSize + 18]
+            ];
+        }
+
+        eyePositions.forEach(([x, y]) => {
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+
+    function startGame() {
+        if (gameRunning || gameOver) return;
+
+        gameRunning = true;
+
+        document.getElementById("status").textContent = "بازی شروع شد! 🐍";
+
+        gameTimer = setInterval(gameLoop, getSpeed());
+    }
+
+    function getSpeed() {
+    return Math.max(120, 220 - score * 1.5);
+}
+
+    function updateSpeed() {
+        if (!gameRunning) return;
+
+        clearInterval(gameTimer);
+        gameTimer = setInterval(gameLoop, getSpeed());
+    }
+
+    function gameLoop() {
+        direction = nextDirection;
+
+        const head = { ...snake[0] };
+
+        if (direction === "up") head.y--;
+        if (direction === "down") head.y++;
+        if (direction === "left") head.x--;
+        if (direction === "right") head.x++;
+
+        // Wall collision
+        if (
+            head.x < 0 ||
+            head.x >= tileCount ||
+            head.y < 0 ||
+            head.y >= tileCount
+        ) {
+            endGame();
+            return;
+        }
+
+        const eatingFood = head.x === food.x && head.y === food.y;
+
+        // Collision with snake body
+        const bodyToCheck = eatingFood ? snake : snake.slice(0, -1);
+
+        if (bodyToCheck.some(part =>
+            part.x === head.x && part.y === head.y
+        )) {
+            endGame();
+            return;
+        }
+
+        snake.unshift(head);
+
+        if (eatingFood) {
+            score += 10;
+
+            document.getElementById("score").textContent = score;
+
+            if (score > highScore) {
+                highScore = score;
+
+                localStorage.setItem("darsakSnakeHighScore", highScore);
+
+                document.getElementById("highScore").textContent =
+                    highScore;
+            }
+
+            spawnFood();
+            updateSpeed();
+        } else {
+            snake.pop();
+        }
+
+        drawGame();
+    }
+
+    function endGame() {
+        gameRunning = false;
+        gameOver = true;
+
+        clearInterval(gameTimer);
+
+        document.getElementById("status").textContent =
+            "💥 بازی تمام شد! امتیاز نهایی: " + score;
+
+        drawGame();
+    }
+
+    function togglePause() {
+        if (gameOver) return;
+
+        if (!gameRunning) {
+            if (score === 0 && snake.length === 3) {
+                startGame();
+                return;
+            }
+
+            gameRunning = true;
+            document.getElementById("status").textContent =
+                "بازی ادامه دارد! 🐍";
+
+            document.getElementById("pauseButton").textContent =
+                "⏸ توقف";
+
+            gameTimer = setInterval(gameLoop, getSpeed());
+        } else {
+            gameRunning = false;
+            clearInterval(gameTimer);
+
+            document.getElementById("status").textContent =
+                "⏸ بازی متوقف شد";
+
+            document.getElementById("pauseButton").textContent =
+                "▶ ادامه";
+        }
+    }
+
+    function restartGame() {
+        clearInterval(gameTimer);
+        initializeGame();
+        startGame();
+    }
+
+    function changeDirection(newDirection) {
+        if (gameOver) return;
+
+        const opposites = {
+            up: "down",
+            down: "up",
+            left: "right",
+            right: "left"
+        };
+
+        if (newDirection !== opposites[direction]) {
+            nextDirection = newDirection;
+        }
+    }
+
+    document.addEventListener("keydown", event => {
+        const keys = {
+            ArrowUp: "up",
+            w: "up",
+            W: "up",
+
+            ArrowDown: "down",
+            s: "down",
+            S: "down",
+
+            ArrowLeft: "left",
+            a: "left",
+            A: "left",
+
+            ArrowRight: "right",
+            d: "right",
+            D: "right"
+        };
+
+        if (keys[event.key]) {
+            event.preventDefault();
+            changeDirection(keys[event.key]);
+        }
+
+        if (event.code === "Space") {
+            event.preventDefault();
+            togglePause();
+        }
+    });
+
+    // Mobile swipe controls
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    canvas.addEventListener("touchstart", event => {
+        touchStartX = event.changedTouches[0].clientX;
+        touchStartY = event.changedTouches[0].clientY;
+    }, { passive: true });
+
+    canvas.addEventListener("touchend", event => {
+        const dx = event.changedTouches[0].clientX - touchStartX;
+        const dy = event.changedTouches[0].clientY - touchStartY;
+
+        if (Math.max(Math.abs(dx), Math.abs(dy)) < 20) return;
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            changeDirection(dx > 0 ? "right" : "left");
+        } else {
+            changeDirection(dy > 0 ? "down" : "up");
+        }
+    }, { passive: true });
+
+    initializeGame();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase.js"></script>
+<script src="../script.js"></script>
+
+</body>
+</html>

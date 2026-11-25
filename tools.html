@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ابزارهای دانش‌آموزی | درسک</title>
+    <link rel="icon" type="image/png" href="images/darsak-logo-dark.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <a href="index.html" class="brand">
+            <img
+    id="darsak-logo"
+    src="images/darsak-logo.png"
+    alt="لوگوی درسک"
+>
+            <span>درسک</span>
+        </a>
+
+        <nav>
+    <a href="index.html">صفحه اصلی</a>
+    <a href="books.html">کتاب‌ها</a>
+    <a href="auth.html" class="login-button login-nav-btn">
+        ورود/ ثبت‌نام
+    </a>
+</nav>
+    </header>
+
+    <main>
+
+        <section class="tools-hero">
+            <h1>جعبه ابزار دانش‌آموزی 🎓</h1>
+            <p>
+                ابزارهای کاربردی برای درس خواندن،
+                برنامه‌ریزی و کمی سرگرمی!
+            </p>
+        </section>
+
+        <section class="tools-section">
+
+            <div class="section-heading">
+                <h2>ابزارهای کاربردی</h2>
+                <p>همه چیزهایی که برای درس خواندن نیاز داری</p>
+            </div>
+
+            <div class="tools-grid">
+
+               <div class="tool-card">
+    <span>🧮</span>
+    <h3>ماشین حساب</h3>
+    <p>محاسبات ساده و علمی</p>
+    <button onclick="window.location.href='pages/calculator.html'">
+        ورود به ابزار
+    </button>
+</div>
+
+                <div class="tool-card">
+                    <span>⏱️</span>
+                    <h3>تایمر مطالعه</h3>
+                    <p>مدیریت زمان با روش پومودورو</p>
+                    <button onclick="window.location.href='pages/timer.html'">
+    ورود به ابزار
+</button>
+                </div>
+
+                <div class="tool-card">
+                    <span>📝</span>
+                    <h3>مدیریت تکالیف</h3>
+                    <p>برنامه‌ریزی و پیگیری تکالیف</p>
+                    <button onclick="window.location.href='pages/tasks.html'">
+    ورود به ابزار
+</button>
+                </div>
+
+                <div class="tool-card">
+                    <span>📒</span>
+                    <h3>یادداشت سریع</h3>
+                    <p>یادداشت کردن نکات مهم</p>
+                    <button onclick="window.location.href='pages/notes.html'">
+    ورود به ابزار
+</button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="tools-section">
+       
+<section class="games-section">
+
+    <div class="games-heading">
+        <span>🎮</span>
+        <h2>وقت بازیه!</h2>
+        <p>از درس و مشق فاصله بگیر و کمی سرگرم شو!</p>
+    </div>
+
+    <div class="games-grid">
+
+        <div class="game-card tictactoe-card">
+            <div class="game-icon">⭕</div>
+            <div class="game-info">
+                <span class="game-tag">دو نفره</span>
+                <h3>دوز (Tic Tac Toe)</h3>
+                <p>با دوستت رقابت کن و سه علامت رو کنار هم بچین!</p>
+                <button onclick="window.location.href='pages/tictactoe.html'">
+    بازی کن
+</button>
+            </div>
+        </div>
+
+        <div class="game-card snake-card">
+            <div class="game-icon">🐍</div>
+            <div class="game-info">
+                <span class="game-tag">تک نفره</span>
+                <h3>بازی مار (Snake)</h3>
+                <p>مار رو هدایت کن، غذا جمع کن و رکوردت رو بشکن!</p>
+                <button onclick="window.location.href='pages/snake.html'">
+    بازی کن
+</button>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

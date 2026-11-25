@@ -1,0 +1,1611 @@
+
+/* Darsak - Main Styles */
+
+:root {
+    --primary: #173B70;
+    --primary-dark: #10294F;
+    --gold: #D9AD45;
+    --background: #F5F7FB;
+    --white: #FFFFFF;
+    --text: #1F2937;
+    --muted: #64748B;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+    direction: rtl;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.8;
+}
+
+/* Header */
+
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px 6%;
+    background: var(--white);
+    border-bottom: 3px solid var(--gold);
+    box-shadow: 0 4px 18px rgba(23, 59, 112, 0.07);
+}
+
+/* Logo and Brand */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--primary);
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.brand img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+/* Navigation */
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    transition: color 0.25s ease;
+}
+
+.main-nav a:hover {
+    color: var(--gold);
+}
+
+/* Login Button */
+
+.login-button {
+    text-decoration: none;
+    background: var(--primary);
+    color: var(--white);
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: background 0.25s ease,
+                transform 0.25s ease;
+}
+
+.login-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: linear-gradient(
+        135deg,
+        #FFFFFF 0%,
+        #EAF0FA 100%
+    );
+}
+
+.hero h1 {
+    color: var(--primary);
+    font-size: 38px;
+    margin-bottom: 14px;
+}
+
+.hero p {
+    color: var(--muted);
+    font-size: 17px;
+}
+
+/* Mobile Layout */
+
+@media (max-width: 768px) {
+    .site-header {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 16px 5%;
+    }
+
+    .main-nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+    }
+
+    .hero {
+        padding: 70px 18px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+}
+
+/* Hero Improvements */
+
+.hero-label {
+    display: inline-block;
+    color: var(--gold);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.hero-button {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 11px 26px;
+    background: var(--primary);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 10px;
+    transition: transform 0.25s ease,
+                background 0.25s ease;
+}
+
+.hero-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+}
+
+/* Courses Section */
+
+.courses {
+    padding: 75px 6%;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 38px;
+}
+
+.section-heading span {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.section-heading h2 {
+    color: var(--primary);
+    font-size: 30px;
+    margin: 8px 0;
+}
+
+.section-heading p {
+    color: var(--muted);
+}
+
+/* Course Cards Grid */
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.course-card {
+    background: var(--white);
+    padding: 28px 24px;
+    border: 1px solid #E5EAF2;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(23, 59, 112, 0.04);
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease,
+                border-color 0.25s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 28px rgba(23, 59, 112, 0.10);
+}
+
+.course-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    background: #EEF3FC;
+    font-size: 29px;
+}
+
+.course-card h3 {
+    color: var(--primary);
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.course-card p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.course-card a {
+    color: var(--primary);
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.course-card a:hover {
+    color: #B88920;
+}
+
+/* Responsive Cards */
+
+@media (max-width: 900px) {
+    .course-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .courses {
+        padding: 50px 5%;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .section-heading h2 {
+        font-size: 25px;
+    }
+}
+
+/* Study Resources */
+
+.resources {
+    padding: 70px 6%;
+    background: #EEF3FC;
+}
+
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.resource-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    padding: 26px;
+    border: 1px solid #E0E7F1;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(23, 59, 112, 0.04);
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(23, 59, 112, 0.10);
+}
+
+.resource-top,
+.resource-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.resource-top {
+    margin-bottom: 20px;
+}
+
+.pdf-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 60px;
+    border-radius: 10px;
+    background: #FFF0F0;
+    color: #C0392B;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.resource-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.resource-badge.free {
+    background: #E5F7EC;
+    color: #247A45;
+}
+
+.resource-badge.premium {
+    background: #FFF3D8;
+    color: #956A10;
+}
+
+.resource-card h3 {
+    color: var(--primary);
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.resource-card p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+.resource-button {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 9px 16px;
+    border-radius: 9px;
+    background: var(--primary);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.resource-button:hover {
+    background: var(--primary-dark);
+}
+
+.resource-bottom {
+    margin-top: auto;
+}
+
+.resource-price {
+    color: #956A10;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.resource-bottom .resource-button {
+    align-self: auto;
+}
+
+@media (max-width: 900px) {
+    .resource-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .resources {
+        padding: 50px 5%;
+    }
+
+    .resource-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Resource Filters */
+
+.resource-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    padding: 10px 22px;
+    border: 1px solid #D8E1EF;
+    border-radius: 10px;
+    background: #FFFFFF;
+    color: var(--primary);
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #FFFFFF;
+}
+
+.resource-card.hidden {
+    display: none;
+}
+.resource-search {
+    max-width: 500px;
+    margin: 0 auto 20px;
+}
+
+.resource-search input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #dbe4f0;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    direction: rtl;
+}
+
+.resource-search input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+.resource-sort {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto 20px;
+    direction: rtl;
+}
+
+.resource-sort select {
+    padding: 10px 14px;
+    border: 2px solid #dbe4f0;
+    border-radius: 10px;
+    background: white;
+    color: #1e293b;
+    font-size: 14px;
+    cursor: pointer;
+}
+.school-levels {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    align-items: stretch;
+}
+
+.school-level {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    direction: rtl;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+}
+
+.school-level h3 {
+    color: #1d4ed8;
+    font-size: 24px;
+    margin: 0 0 8px;
+}
+
+.school-level > p {
+    color: #64748b;
+    margin-bottom: 22px;
+    line-height: 1.8;
+}
+
+.school-level .course-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.school-level {
+    direction: rtl;
+}
+/* Tablets */
+@media (max-width: 900px) {
+    .school-levels {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 600px) {
+    .school-levels {
+        grid-template-columns: 1fr;
+    }
+
+    .school-level {
+        padding: 18px;
+    }
+
+    .school-level h3 {
+        font-size: 21px;
+    }
+}
+.grade-button {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #dbe4f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #1e3a8a;
+    font-family: inherit;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.grade-button:hover {
+    background: #2563eb;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.grade-button:focus-visible {
+    outline: 3px solid #fbbf24;
+    outline-offset: 3px;
+}
+/* Book selection page */
+.books-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 24px;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 36px;
+}
+
+.book-card {
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.09);
+}
+
+.book-icon {
+    font-size: 42px;
+    margin-bottom: 14px;
+}
+
+.book-card h2 {
+    color: #1d4ed8;
+    font-size: 22px;
+    margin: 0 0 12px;
+}
+
+.book-card p {
+    color: #64748b;
+    line-height: 1.9;
+    margin-bottom: 22px;
+}
+
+.book-card .resource-button {
+    display: inline-block;
+    text-decoration: none;
+}
+
+@media (max-width: 900px) {
+    .book-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .books-page {
+        padding: 32px 16px;
+    }
+
+    .book-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-card {
+        padding: 22px;
+    }
+}
+/* هماهنگ‌سازی هدر صفحه اصلی درسک */
+.site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 15px 5%;
+    box-sizing: border-box;
+}
+
+.site-header .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.site-header .brand img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.site-header .main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.site-header .main-nav a,
+.site-header .login-button {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.site-header .main-nav a:hover {
+    background: #1769d2;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.site-header .login-button {
+    background: #1769d2;
+    color: #fff;
+}
+
+.site-header .login-button:hover {
+    background: #1055ad;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+    .site-header {
+        justify-content: center;
+    }
+
+    .site-header .main-nav {
+        width: 100%;
+        gap: 6px;
+    }
+
+    .site-header .main-nav a,
+    .site-header .login-button {
+        padding: 9px 11px;
+    }
+}
+/* ===== منوی حساب کاربری درسک ===== */
+
+.account-wrapper {
+    position: relative;
+    display: inline-block;
+    z-index: 1000;
+}
+
+.site-header .account-toggle {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.account-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 210px;
+    padding: 10px;
+    background: #ffffff;
+    color: #222222;
+    border: 1px solid #e5eaf2;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-align: right;
+}
+
+.account-menu[hidden] {
+    display: none;
+}
+
+.account-menu .account-email {
+    margin: 0;
+    padding: 12px 10px;
+    color: #1769d2;
+    font-size: 13px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    border-bottom: 1px solid #e8edf5;
+    direction: ltr;
+    text-align: right;
+}
+
+.account-menu a,
+.account-menu .account-logout {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: #263449;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: right;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.account-menu a:hover {
+    background: #edf5ff;
+    color: #1769d2;
+}
+
+.account-menu .account-logout {
+    color: #d64545;
+    border-top: 1px solid #eeeeee;
+    border-radius: 0 0 9px 9px;
+    margin-top: 3px;
+}
+
+.account-menu .account-logout:hover {
+    background: #fff0f0;
+    color: #b42323;
+}
+
+@media (max-width: 700px) {
+    .account-menu {
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 200px;
+    }
+}
+
+/* ===== صفحه خرید درسک (checkout.html) ===== */
+.checkout-page { max-width: 1050px; margin: 45px auto; padding: 20px; }
+.checkout-heading { text-align: center; margin-bottom: 30px; }
+.checkout-heading h1 { color: var(--primary); font-size: 30px; margin-bottom: 8px; }
+.checkout-heading p { color: var(--muted); }
+
+.checkout-steps { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+.checkout-step { padding: 7px 16px; border-radius: 20px; background: #e2e8f0; color: #64748b; font-size: 13px; }
+.checkout-step.active { background: var(--primary); color: #fff; }
+
+.checkout-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.checkout-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 18px; padding: 28px; box-shadow: 0 8px 25px rgba(15, 23, 42, 0.05); }
+.checkout-card h2 { font-size: 20px; color: var(--primary); margin-bottom: 22px; }
+
+.checkout-product { display: flex; align-items: center; gap: 14px; }
+.checkout-product-icon { width: 62px; height: 62px; display: flex; align-items: center; justify-content: center; background: #edf3ff; border-radius: 14px; font-size: 30px; flex-shrink: 0; }
+.checkout-product h3 { font-size: 17px; margin-bottom: 4px; }
+.checkout-product p { color: var(--muted); font-size: 13px; }
+
+.checkout-divider { border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0; }
+.checkout-row { display: flex; justify-content: space-between; gap: 12px; margin: 14px 0; }
+.checkout-row.discount strong { color: #247a45; }
+.checkout-total { color: #1769d2; font-size: 20px; }
+
+.coupon { display: flex; gap: 8px; margin-top: 18px; }
+.coupon input { flex: 1; min-width: 0; }
+.coupon button { padding: 0 16px; border: 1px solid var(--primary); background: #fff; color: var(--primary); border-radius: 10px; font: inherit; cursor: pointer; }
+.coupon button:hover { background: var(--primary); color: #fff; }
+
+.checkout-field { margin-bottom: 18px; }
+.checkout-field label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 14px; }
+.checkout-field input[type="text"],
+.checkout-field input[type="email"],
+.checkout-field input[type="tel"],
+.coupon input {
+    width: 100%; padding: 13px 14px; border: 1px solid #cbd5e1; border-radius: 10px;
+    font: inherit; background: #fff; outline: none; transition: border-color .2s, box-shadow .2s;
+}
+.checkout-field input:focus, .coupon input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, .12); }
+.checkout-field input[readonly] { background: #f1f5f9; color: #475569; }
+.ltr { direction: ltr; text-align: right; }
+.checkout-hint { color: var(--muted); font-size: 12px; margin-top: 6px; line-height: 1.8; }
+
+.pay-method { display: flex; align-items: center; gap: 12px; padding: 14px; border: 2px solid var(--primary); border-radius: 12px; background: #f8fbff; margin-bottom: 18px; }
+.pay-method span.ico { font-size: 24px; }
+.pay-method small { display: block; color: var(--muted); }
+
+.checkout-terms { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.9; margin-bottom: 6px; }
+.checkout-terms input { margin-top: 7px; }
+
+.checkout-submit, .checkout-cancel {
+    display: block; width: 100%; padding: 14px; border-radius: 11px; font: inherit; font-weight: bold;
+    text-align: center; text-decoration: none; cursor: pointer; transition: transform .2s, opacity .2s;
+}
+.checkout-submit { margin-top: 20px; border: none; background: var(--primary); color: #fff; }
+.checkout-cancel { margin-top: 10px; border: 1px solid #cbd5e1; background: transparent; color: var(--text); }
+.checkout-submit:hover:not(:disabled), .checkout-cancel:hover { transform: translateY(-2px); opacity: .92; }
+.checkout-submit:disabled { opacity: .55; cursor: not-allowed; }
+
+.checkout-notice { display: none; margin-top: 18px; padding: 13px; border-radius: 10px; font-size: 14px; line-height: 1.9; }
+.checkout-notice.show { display: block; }
+.checkout-notice.info { background: #eaf3ff; color: #164b88; }
+.checkout-notice.error { background: #fff0f0; color: #a32121; }
+.checkout-notice.success { background: #e5f7ec; color: #247a45; }
+
+.checkout-security { margin-top: 22px; padding: 14px; background: #f1f5f9; border-radius: 12px; font-size: 13px; line-height: 2; color: #475569; }
+.checkout-back { display: inline-block; margin-top: 24px; color: #1769d2; text-decoration: none; }
+
+@media (max-width: 760px) {
+    .checkout-page { margin: 20px auto; padding: 14px; }
+    .checkout-layout { grid-template-columns: 1fr; }
+    .checkout-card { padding: 20px; }
+}
+
+/* =================================
+   DARSAK - DARK MODE
+================================= */
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+
+    --background: #0b1220;
+    --text: #e5e7eb;
+    --muted: #a1acc0;
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+}
+
+html[data-theme="dark"] body {
+    background: var(--background);
+    color: var(--text);
+}
+
+html[data-theme="dark"] .site-header {
+    background: #111c2e;
+    border-bottom-color: #b58b35;
+}
+
+html[data-theme="dark"] .brand,
+html[data-theme="dark"] .main-nav a {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .hero {
+    background: linear-gradient(135deg, #111c2e, #17263d);
+}
+
+html[data-theme="dark"] .hero h1,
+html[data-theme="dark"] .section-heading h2,
+html[data-theme="dark"] .course-card h3,
+html[data-theme="dark"] .book-card h2 {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .course-card,
+html[data-theme="dark"] .resource-card,
+html[data-theme="dark"] .book-card,
+html[data-theme="dark"] .school-level,
+html[data-theme="dark"] .checkout-card,
+html[data-theme="dark"] .profile-card {
+    background: #172438;
+    color: #e5e7eb;
+    border-color: #2b3b52;
+}
+
+html[data-theme="dark"] .course-card p,
+html[data-theme="dark"] .resource-card p,
+html[data-theme="dark"] .book-card p {
+    color: #b7c3d5;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+    background: #111c2e;
+    color: #e5e7eb;
+    border-color: #3b4b63;
+}
+
+html[data-theme="dark"] .account-menu {
+    background: #172438;
+    color: #e5e7eb;
+    border-color: #34445b;
+}
+
+html[data-theme="dark"] .account-menu a {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .profile-stat-card,
+html[data-theme="dark"] .profile-info {
+    background: #111c2e;
+    border-color: #34445b;
+}
+
+html[data-theme="dark"] .checkout-step {
+    background: #26364d;
+    color: #d1d9e6;
+}
+
+html[data-theme="dark"] .checkout-security,
+html[data-theme="dark"] .pay-method {
+    background: #111c2e;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .auth-card {
+    background: #172438;
+    color: #e5e7eb;
+    border-color: #34445b;
+}
+
+html[data-theme="dark"] .auth-form h2,
+html[data-theme="dark"] .auth-field label {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .auth-tabs {
+    background: #111c2e;
+}
+
+html[data-theme="dark"] .auth-tab {
+    color: #cbd5e1;
+}
+
+/* Dark mode toggle button */
+
+.theme-toggle {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.08);
+    background: rgba(128, 128, 128, 0.12);
+}
+
+html[data-theme="dark"] .theme-toggle {
+    border-color: #475569;
+    background: #172438;
+}
+
+/* ========================================
+   DARSAK - DARK MODE FIX
+======================================== */
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+
+    --background: #0b1220;
+    --white: #172438;
+    --text: #e5e7eb;
+    --muted: #a1acc0;
+}
+
+/* Main page background */
+html[data-theme="dark"] body {
+    background: #0b1220 !important;
+    color: #e5e7eb;
+}
+
+/* School grade sections */
+html[data-theme="dark"] .school-level {
+    background: #172438 !important;
+    border-color: #34445b !important;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .school-level h3 {
+    color: #93baff !important;
+}
+
+html[data-theme="dark"] .school-level > p {
+    color: #b7c3d5 !important;
+}
+
+/* Grade buttons */
+html[data-theme="dark"] .grade-button {
+    background: #24354d !important;
+    color: #e5e7eb !important;
+    border-color: #40536e !important;
+}
+
+html[data-theme="dark"] .grade-button:hover {
+    background: #2563eb !important;
+    color: #ffffff !important;
+}
+
+/* Other cards */
+html[data-theme="dark"] .course-card,
+html[data-theme="dark"] .resource-card,
+html[data-theme="dark"] .book-card {
+    background: #172438 !important;
+    color: #e5e7eb !important;
+    border-color: #34445b !important;
+}
+
+/* Headings and descriptions */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3 {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] p {
+    color: #b7c3d5;
+}
+
+/* Header */
+html[data-theme="dark"] .site-header {
+    background: #111c2e !important;
+    border-bottom-color: #b58b35;
+}
+
+html[data-theme="dark"] .main-nav a {
+    color: #e5e7eb;
+}
+
+/* ========================================
+   DARSAK - MAIN BACKGROUND DARK MODE FIX
+======================================== */
+
+html[data-theme="dark"] body {
+    background-color: #0b1220 !important;
+    color: #e5e7eb !important;
+}
+
+/* Main content */
+html[data-theme="dark"] main {
+    background-color: #0b1220 !important;
+}
+
+/* Resources section */
+html[data-theme="dark"] .resources {
+    background: #0b1220 !important;
+}
+
+/* Courses section */
+html[data-theme="dark"] .courses {
+    background: #0b1220 !important;
+}
+
+/* Section headings */
+html[data-theme="dark"] .section-heading h2 {
+    color: #e5e7eb !important;
+}
+
+html[data-theme="dark"] .section-heading p {
+    color: #a1acc0 !important;
+}
+
+html[data-theme="dark"] .section-heading span {
+    color: #d9ad45 !important;
+}
+
+/* Hero section */
+html[data-theme="dark"] .hero {
+    background: linear-gradient(
+        135deg,
+        #111c2e,
+        #172c49
+    ) !important;
+}
+
+/* Dark mode - Resource filter buttons */
+
+html[data-theme="dark"] .filter-btn {
+    background: #24354d !important;
+    color: #e5e7eb !important;
+    border-color: #40536e !important;
+}
+
+html[data-theme="dark"] .filter-btn:hover {
+    background: #344b6b !important;
+    border-color: #d9ad45 !important;
+}
+
+html[data-theme="dark"] .filter-btn.active {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-color: #2563eb !important;
+}
+
+/* Free and premium badges */
+
+html[data-theme="dark"] .resource-badge.free {
+    background: #16432e !important;
+    color: #86efac !important;
+}
+
+html[data-theme="dark"] .resource-badge.premium {
+    background: #51401c !important;
+    color: #fcd477 !important;
+}
+.brand img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    transition: opacity 0.2s ease;
+}
+
+/* ================================
+   DARSAK - STUDENT TOOLS PAGE
+================================ */
+
+.tools-hero {
+    margin: 35px auto;
+    padding: 55px 25px;
+    max-width: 1200px;
+    text-align: center;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #eaf2ff, #f8faff);
+}
+
+.tools-hero h1 {
+    color: #1e3a8a;
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.tools-hero p {
+    color: #64748b;
+    font-size: 16px;
+}
+
+.tools-section {
+    max-width: 1200px;
+    margin: 55px auto;
+    padding: 0 20px;
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 22px;
+    margin-top: 25px;
+}
+
+.tool-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+    transition: 0.25s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.09);
+}
+
+.tool-card > span {
+    font-size: 42px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.tool-card h3 {
+    color: #1e293b;
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.tool-card p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.tool-card button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 22px;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.tool-card button:hover {
+    background: #1d4ed8;
+    transform: scale(1.04);
+}
+
+/* DARK MODE */
+
+html[data-theme="dark"] .tools-hero {
+    background: linear-gradient(135deg, #111c2e, #172c49);
+}
+
+html[data-theme="dark"] .tools-hero h1 {
+    color: #93baff;
+}
+
+html[data-theme="dark"] .tools-hero p {
+    color: #b7c3d5;
+}
+
+html[data-theme="dark"] .tool-card {
+    background: #172438;
+    border-color: #34445b;
+    box-shadow: none;
+}
+
+html[data-theme="dark"] .tool-card h3 {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .tool-card p {
+    color: #b7c3d5;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .tools-hero {
+        margin: 20px 12px;
+        padding: 40px 18px;
+    }
+
+    .tools-hero h1 {
+        font-size: 25px;
+    }
+
+    .tools-section {
+        margin: 40px auto;
+    }
+
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* DARSAK - TOOLS PAGE HEADER NAVIGATION */
+
+.site-header nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.site-header nav a {
+    text-decoration: none;
+    color: #1e3a8a;
+    background: #eff6ff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.site-header nav a:hover {
+    background: #2563eb;
+    color: white;
+}
+
+/* DARK MODE */
+
+html[data-theme="dark"] .site-header nav a {
+    color: #dbeafe;
+    background: #24354d;
+}
+
+html[data-theme="dark"] .site-header nav a:hover {
+    background: #2563eb;
+    color: white;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .site-header nav {
+        gap: 6px;
+    }
+
+    .site-header nav a {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}
+
+/* DARSAK - GAMING CORNER */
+
+.games-section {
+    max-width: 1200px;
+    margin: 70px auto;
+    padding: 35px 20px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #eef2ff, #fdf2f8);
+}
+
+.games-heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.games-heading > span {
+    font-size: 45px;
+}
+
+.games-heading h2 {
+    color: #312e81;
+    font-size: 30px;
+    margin: 10px 0;
+}
+
+.games-heading p {
+    color: #64748b;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.game-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    border-radius: 20px;
+    color: white;
+    transition: 0.25s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-6px);
+}
+
+.tictactoe-card {
+    background: linear-gradient(135deg, #6366f1, #4338ca);
+}
+
+.snake-card {
+    background: linear-gradient(135deg, #16a34a, #065f46);
+}
+
+.game-icon {
+    font-size: 65px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.game-info {
+    flex: 1;
+}
+
+.game-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+.game-info h3 {
+    margin: 12px 0 8px;
+    font-size: 21px;
+}
+
+.game-info p {
+    color: #f1f5f9;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.game-info button {
+    margin-top: 12px;
+    background: white;
+    color: #312e81;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.game-info button:hover {
+    transform: scale(1.05);
+}
+
+/* DARK MODE */
+
+html[data-theme="dark"] .games-section {
+    background: linear-gradient(135deg, #111c2e, #172438);
+}
+
+html[data-theme="dark"] .games-heading h2 {
+    color: #c7d2fe;
+}
+
+html[data-theme="dark"] .games-heading p {
+    color: #b7c3d5;
+}
+
+/* MOBILE */
+
+@media (max-width: 750px) {
+    .games-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .game-card {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 450px) {
+    .game-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* DARSAK - LOGIN / SIGNUP BUTTON */
+
+.site-header nav a.login-nav-btn {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #ffffff;
+    border: 1px solid #d9ad45;
+    padding: 10px 20px;
+    border-radius: 11px;
+    font-weight: 700;
+    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.15);
+}
+
+.site-header nav a.login-nav-btn:hover {
+    background: linear-gradient(135deg, #d9ad45, #b88924);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* DARK MODE */
+
+html[data-theme="dark"] .site-header nav a.login-nav-btn {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #ffffff;
+    border-color: #d9ad45;
+}
+
+html[data-theme="dark"] .site-header nav a.login-nav-btn:hover {
+    background: linear-gradient(135deg, #d9ad45, #b88924);
+    color: #ffffff;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .site-header nav a.login-nav-btn {
+        padding: 8px 11px;
+        font-size: 12px;
+    }
+}
+/* =================================
+   DARSAK AUTH PAGE - DARK MODE
+================================= */
+
+html[data-theme="dark"] .auth-page {
+    background: #0f172a;
+}
+
+html[data-theme="dark"] .auth-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme="dark"] .auth-brand p,
+html[data-theme="dark"] .auth-description {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .auth-form h2 {
+    color: #f1f5f9;
+}
+
+html[data-theme="dark"] .auth-field label {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .auth-field input {
+    background: #0f172a;
+    color: #f8fafc;
+    border-color: #475569;
+}
+
+html[data-theme="dark"] .auth-field input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .auth-tabs {
+    background: #0f172a;
+}
+
+html[data-theme="dark"] .auth-tab {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .auth-tab.active {
+    color: white;
+}
+
+html[data-theme="dark"] .auth-back {
+    color: #60a5fa;
+}
+
+html[data-theme="dark"] .auth-notice {
+    background: #422006;
+    border-color: #854d0e;
+    color: #fde68a;
+}
+html[data-theme="dark"] .purchases-card {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+html[data-theme="dark"] .purchases-empty p {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .purchases-heading p {
+    color: #cbd5e1;
+}

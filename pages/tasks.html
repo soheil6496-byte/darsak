@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>مدیریت تکالیف | درسک</title>
+    <link rel="icon" type="image/png" href="../images/darsak-logo-dark.png">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .tasks-container {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 28px;
+            border-radius: 22px;
+            background: var(--card-bg, #fff);
+            color: inherit;
+            box-shadow: 0 8px 30px rgba(0,0,0,.08);
+        }
+
+        .tasks-container h1,
+        .tasks-subtitle {
+            text-align: center;
+        }
+
+        .tasks-subtitle {
+            color: #64748b;
+            margin: 10px 0 25px;
+        }
+
+        .task-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .task-form input {
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: var(--input-bg, #f1f5f9);
+            color: inherit;
+            font: inherit;
+        }
+
+        .task-form button {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 18px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .task-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .task-filters button {
+            border: none;
+            border-radius: 10px;
+            padding: 9px 16px;
+            background: #e2e8f0;
+            color: #334155;
+            cursor: pointer;
+        }
+
+        .task-filters button.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .task-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 13px;
+        }
+
+        .task-item input[type="checkbox"] {
+            width: 19px;
+            height: 19px;
+            cursor: pointer;
+        }
+
+        .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-info h3 {
+            margin: 0 0 5px;
+            overflow-wrap: anywhere;
+        }
+
+        .task-info small {
+            color: #64748b;
+        }
+
+        .task-item.completed .task-info h3 {
+            text-decoration: line-through;
+            opacity: .55;
+        }
+
+        .delete-task {
+            border: none;
+            border-radius: 9px;
+            padding: 9px 12px;
+            background: #fee2e2;
+            color: #dc2626;
+            cursor: pointer;
+        }
+
+        .empty-tasks {
+            text-align: center;
+            padding: 35px 10px;
+            color: #64748b;
+        }
+
+        .tasks-summary {
+            margin-top: 20px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .tasks-back {
+            display: block;
+            width: fit-content;
+            margin: 25px auto 0;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        html[data-theme="dark"] .tasks-container {
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+
+        html[data-theme="dark"] .task-form input {
+            background: #0f172a;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+
+        html[data-theme="dark"] .task-filters button {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        html[data-theme="dark"] .task-filters button.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        html[data-theme="dark"] .task-item {
+            border-color: #334155;
+        }
+
+        html[data-theme="dark"] .task-info small,
+        html[data-theme="dark"] .tasks-summary,
+        html[data-theme="dark"] .empty-tasks {
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .delete-task {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        @media (max-width: 600px) {
+            .tasks-container {
+                margin: 25px 15px;
+                padding: 18px;
+            }
+
+            .task-form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a href="../index.html" class="brand">
+               <img
+    id="darsak-logo"
+    src="../images/darsak-logo.png"
+    alt="لوگوی درسک"
+>
+        <span>درسک</span>
+    </a>
+
+    <nav>
+        <a href="../index.html">صفحه اصلی</a>
+        <a href="../tools.html">ابزارها</a>
+        <a href="../auth.html" class="login-button login-nav-btn">
+            ورود و ثبت‌نام
+        </a>
+    </nav>
+</header>
+
+<main>
+    <section class="tasks-container">
+
+        <h1>📝 مدیریت تکالیف درسک</h1>
+        <p class="tasks-subtitle">
+            تکالیفت رو مرتب کن و هیچ کاری رو فراموش نکن!
+        </p>
+
+        <form class="task-form" id="taskForm">
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="مثلاً: حل تمرین ریاضی"
+                maxlength="100"
+                required
+            >
+
+            <input
+                type="date"
+                id="taskDate"
+            >
+
+            <button type="submit">+ افزودن</button>
+        </form>
+
+        <div class="task-filters">
+            <button class="active" data-filter="all">همه</button>
+            <button data-filter="pending">در انتظار</button>
+            <button data-filter="completed">انجام شده</button>
+        </div>
+
+        <div class="task-list" id="taskList"></div>
+
+        <p class="tasks-summary" id="taskSummary"></p>
+
+        <a href="../tools.html" class="tasks-back">
+            ← بازگشت به ابزارها
+        </a>
+
+    </section>
+</main>
+
+<script>
+    const taskForm = document.getElementById("taskForm");
+    const taskInput = document.getElementById("taskInput");
+    const taskDate = document.getElementById("taskDate");
+    const taskList = document.getElementById("taskList");
+    const taskSummary = document.getElementById("taskSummary");
+
+    let tasks = JSON.parse(localStorage.getItem("darsakTasks") || "[]");
+    let currentFilter = "all";
+
+    function saveTasks() {
+        localStorage.setItem("darsakTasks", JSON.stringify(tasks));
+    }
+
+    function renderTasks() {
+        taskList.innerHTML = "";
+
+        const filteredTasks = tasks.filter(task => {
+            if (currentFilter === "pending") return !task.completed;
+            if (currentFilter === "completed") return task.completed;
+            return true;
+        });
+
+        if (filteredTasks.length === 0) {
+            taskList.innerHTML =
+                '<div class="empty-tasks">هنوز تکلیفی وجود نداره! 🎉</div>';
+        }
+
+        filteredTasks.forEach(task => {
+            const item = document.createElement("div");
+            item.className = "task-item" +
+                (task.completed ? " completed" : "");
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = task.completed;
+            checkbox.setAttribute("aria-label", "تغییر وضعیت تکلیف");
+
+            checkbox.addEventListener("change", () => {
+                task.completed = checkbox.checked;
+                saveTasks();
+                renderTasks();
+            });
+
+            const info = document.createElement("div");
+            info.className = "task-info";
+
+            const title = document.createElement("h3");
+            title.textContent = task.title;
+
+            const date = document.createElement("small");
+            date.textContent = task.date
+                ? "مهلت: " + task.date
+                : "بدون مهلت";
+
+            info.append(title, date);
+
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "delete-task";
+            deleteButton.textContent = "حذف";
+            deleteButton.addEventListener("click", () => {
+                tasks = tasks.filter(t => t.id !== task.id);
+                saveTasks();
+                renderTasks();
+            });
+
+            item.append(checkbox, info, deleteButton);
+            taskList.appendChild(item);
+        });
+
+        const completedCount = tasks.filter(t => t.completed).length;
+
+        taskSummary.textContent =
+            `تعداد تکالیف: ${tasks.length} | انجام شده: ${completedCount} | باقی‌مانده: ${tasks.length - completedCount}`;
+    }
+
+    taskForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const title = taskInput.value.trim();
+
+        if (!title) return;
+
+        tasks.push({
+            id: Date.now() + Math.random(),
+            title,
+            date: taskDate.value,
+            completed: false
+        });
+
+        saveTasks();
+        taskForm.reset();
+        renderTasks();
+    });
+
+    document.querySelectorAll(".task-filters button")
+        .forEach(button => {
+            button.addEventListener("click", () => {
+                currentFilter = button.dataset.filter;
+
+                document.querySelectorAll(".task-filters button")
+                    .forEach(btn => btn.classList.remove("active"));
+
+                button.classList.add("active");
+                renderTasks();
+            });
+        });
+
+    renderTasks();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase.js"></script>
+<script src="../script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ماشین حساب | درسک</title>
+    <link rel="icon" type="image/png" href="../images/darsak-logo-dark.png">
+    <link rel="stylesheet" href="../style.css">
+
+    <style>
+        .calculator-section {
+            max-width: 420px;
+            margin: 60px auto;
+            padding: 25px;
+            border-radius: 22px;
+            background: var(--card-bg, #fff);
+            box-shadow: 0 8px 30px rgba(0,0,0,.08);
+        }
+
+        .calculator-section h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .calculator-display {
+            width: 100%;
+            min-height: 85px;
+            padding: 20px;
+            margin-bottom: 18px;
+            border: 1px solid #cbd5e1;
+            border-radius: 14px;
+            background: var(--input-bg, #f1f5f9);
+            color: inherit;
+            font-size: 28px;
+            text-align: left;
+            direction: ltr;
+            overflow: hidden;
+            overflow-wrap: anywhere;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .calculator-grid button {
+            min-height: 58px;
+            border: none;
+            border-radius: 13px;
+            font-size: 21px;
+            font-weight: bold;
+            cursor: pointer;
+            background: var(--button-bg, #e2e8f0);
+            color: inherit;
+            transition: .2s;
+        }
+
+        .calculator-grid button:hover {
+            filter: brightness(.92);
+            transform: translateY(-2px);
+        }
+
+        .calculator-grid .operator {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .calculator-grid .clear {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .calculator-grid .equals {
+            background: #2563eb;
+            color: white;
+        }
+
+        .calculator-grid .zero {
+            grid-column: span 2;
+        }
+
+        .calculator-back {
+            display: block;
+            width: fit-content;
+            margin: 25px auto 0;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        html[data-theme="dark"] .calculator-grid .operator {
+            background: #1e3a8a;
+            color: #bfdbfe;
+        }
+
+        html[data-theme="dark"] .calculator-grid .clear {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+        /* Calculator dark mode */
+html[data-theme="dark"] .calculator-section {
+    background: #1e293b;
+    color: #f1f5f9;
+    border: 1px solid #334155;
+}
+
+html[data-theme="dark"] .calculator-display {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+html[data-theme="dark"] .calculator-grid button:not(.operator):not(.clear):not(.equals) {
+    background: #334155;
+    color: #f1f5f9;
+}
+    </style>
+</head>
+
+<body>
+
+<header class="site-header">
+    <a href="../index.html" class="brand">
+        <img
+    id="darsak-logo"
+    src="../images/darsak-logo.png"
+    alt="لوگوی درسک"
+>
+        <span>درسک</span>
+    </a>
+
+    <nav>
+        <a href="../index.html">صفحه اصلی</a>
+        <a href="../tools.html">ابزارها</a>
+        <a href="../auth.html" class="login-button login-nav-btn">
+            ورود/ثبت‌نام
+        </a>
+    </nav>
+</header>
+
+<main>
+    <section class="calculator-section">
+        <h1>🧮 ماشین حساب درسک</h1>
+
+        <div class="calculator-display" id="display">0</div>
+
+        <div class="calculator-grid">
+            <button class="clear" onclick="clearDisplay()">AC</button>
+            <button onclick="deleteLast()">⌫</button>
+            <button class="operator" onclick="percentage()">%</button>
+            <button class="operator" onclick="addOperator('/')">÷</button>
+
+            <button onclick="addNumber('7')">7</button>
+            <button onclick="addNumber('8')">8</button>
+            <button onclick="addNumber('9')">9</button>
+            <button class="operator" onclick="addOperator('*')">×</button>
+
+            <button onclick="addNumber('4')">4</button>
+            <button onclick="addNumber('5')">5</button>
+            <button onclick="addNumber('6')">6</button>
+            <button class="operator" onclick="addOperator('-')">−</button>
+
+            <button onclick="addNumber('1')">1</button>
+            <button onclick="addNumber('2')">2</button>
+            <button onclick="addNumber('3')">3</button>
+            <button class="operator" onclick="addOperator('+')">+</button>
+
+            <button class="zero" onclick="addNumber('0')">0</button>
+            <button onclick="addNumber('.')">.</button>
+            <button class="equals" onclick="calculate()">=</button>
+        </div>
+
+        <a href="../tools.html" class="calculator-back">
+            ← بازگشت به ابزارها
+        </a>
+    </section>
+</main>
+
+<script>
+    const display = document.getElementById("display");
+    let expression = "";
+
+    function updateDisplay() {
+        display.textContent = expression || "0";
+    }
+
+    function addNumber(number) {
+        if (number === "." && expression.split(/[+\-*/]/).pop().includes(".")) {
+            return;
+        }
+
+        expression += number;
+        updateDisplay();
+    }
+
+    function addOperator(operator) {
+        if (!expression && operator !== "-") return;
+
+        if (/[+\-*/]$/.test(expression)) {
+            expression = expression.slice(0, -1);
+        }
+
+        expression += operator;
+        updateDisplay();
+    }
+
+    function clearDisplay() {
+        expression = "";
+        updateDisplay();
+    }
+
+    function deleteLast() {
+        expression = expression.slice(0, -1);
+        updateDisplay();
+    }
+
+    function percentage() {
+        const match = expression.match(/(\d+\.?\d*)$/);
+
+        if (!match) return;
+
+        const value = Number(match[0]) / 100;
+        expression = expression.slice(0, -match[0].length) + value;
+        updateDisplay();
+    }
+
+    function calculate() {
+        if (!expression || !/^[0-9+\-*/. ]+$/.test(expression)) return;
+
+        try {
+            const result = Function('"use strict"; return (' + expression + ')')();
+
+            if (!Number.isFinite(result)) {
+                display.textContent = "خطا";
+                expression = "";
+                return;
+            }
+
+            expression = String(Number(result.toPrecision(12)));
+            updateDisplay();
+        } catch {
+            display.textContent = "خطا";
+            expression = "";
+        }
+    }
+
+    document.addEventListener("keydown", (event) => {
+        if (/^[0-9.]$/.test(event.key)) addNumber(event.key);
+        else if (["+", "-", "*", "/"].includes(event.key)) addOperator(event.key);
+        else if (event.key === "Enter" || event.key === "=") calculate();
+        else if (event.key === "Backspace") deleteLast();
+        else if (event.key === "Escape") clearDisplay();
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../supabase.js"></script>
+<script src="../script.js"></script>
+
+</body>
+</html>
