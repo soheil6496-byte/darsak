@@ -1609,3 +1609,7 @@ html[data-theme="dark"] .purchases-empty p {
 html[data-theme="dark"] .purchases-heading p {
     color: #cbd5e1;
 }
+/* Darsak AI tutor entry points */
+.ai-nav-link{color:#6d5ce7!important;font-weight:800!important}
+.ai-hero-button{margin-right:10px;background:linear-gradient(120deg,#7564ed,#269fbd)!important}
+.ai-hero-button:hover{filter:brightness(1.06)}
