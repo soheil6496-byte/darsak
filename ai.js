@@ -41,6 +41,20 @@ async function checkWorker() {
   }
 }
 
+async function loadQuota() {
+  try {
+    const { data, error } = await supabaseClient.rpc("get_ai_quota");
+    if (error) throw error;
+    const quota = Array.isArray(data) ? data[0] : data;
+    if (quota && Number.isFinite(Number(quota.tokens_used))) {
+      setQuota(Number(quota.tokens_used), 2000);
+    }
+  } catch (error) {
+    console.error("خطا در دریافت سهمیه ذخیره‌شده:", error);
+    quotaEl.textContent = "سهمیهٔ روزانه: دریافت اطلاعات ناموفق بود";
+  }
+}
+
 async function init() {
   try {
     const [session, online] = await Promise.all([currentSession(), checkWorker()]);
@@ -58,6 +72,7 @@ async function init() {
     if (session) {
       const login = document.getElementById("ai-login");
       if (login) login.textContent = "حساب من";
+      await loadQuota();
     }
   } catch {
     statusEl.textContent = "بررسی اتصال ناموفق بود";
